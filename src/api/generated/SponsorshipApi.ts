@@ -11,7 +11,7 @@ class SponsorshipApi {
     town?: string
   ): AxiosPromise<PageCompanySponsorDto> {
     const companySponsorApi = CompanySponsorControllerApiFactory();
-    return companySponsorApi.getCompanyHouseEntry({ page, size }, town);
+    return companySponsorApi.getCompanyHouseEntry(page, size, town);
   }
 }
 

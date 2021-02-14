@@ -293,19 +293,13 @@ export interface PageCompanySponsorDto {
    * @type {number}
    * @memberof PageCompanySponsorDto
    */
-  totalPages?: number;
-  /**
-   *
-   * @type {number}
-   * @memberof PageCompanySponsorDto
-   */
   totalElements?: number;
   /**
    *
    * @type {number}
    * @memberof PageCompanySponsorDto
    */
-  number?: number;
+  totalPages?: number;
   /**
    *
    * @type {number}
@@ -326,12 +320,6 @@ export interface PageCompanySponsorDto {
   sort?: Sort;
   /**
    *
-   * @type {number}
-   * @memberof PageCompanySponsorDto
-   */
-  numberOfElements?: number;
-  /**
-   *
    * @type {boolean}
    * @memberof PageCompanySponsorDto
    */
@@ -344,10 +332,22 @@ export interface PageCompanySponsorDto {
   last?: boolean;
   /**
    *
+   * @type {number}
+   * @memberof PageCompanySponsorDto
+   */
+  numberOfElements?: number;
+  /**
+   *
    * @type {Pageable}
    * @memberof PageCompanySponsorDto
    */
   pageable?: Pageable;
+  /**
+   *
+   * @type {number}
+   * @memberof PageCompanySponsorDto
+   */
+  number?: number;
   /**
    *
    * @type {boolean}
@@ -366,19 +366,13 @@ export interface PagePDFSponsor {
    * @type {number}
    * @memberof PagePDFSponsor
    */
-  totalPages?: number;
-  /**
-   *
-   * @type {number}
-   * @memberof PagePDFSponsor
-   */
   totalElements?: number;
   /**
    *
    * @type {number}
    * @memberof PagePDFSponsor
    */
-  number?: number;
+  totalPages?: number;
   /**
    *
    * @type {number}
@@ -399,12 +393,6 @@ export interface PagePDFSponsor {
   sort?: Sort;
   /**
    *
-   * @type {number}
-   * @memberof PagePDFSponsor
-   */
-  numberOfElements?: number;
-  /**
-   *
    * @type {boolean}
    * @memberof PagePDFSponsor
    */
@@ -417,10 +405,22 @@ export interface PagePDFSponsor {
   last?: boolean;
   /**
    *
+   * @type {number}
+   * @memberof PagePDFSponsor
+   */
+  numberOfElements?: number;
+  /**
+   *
    * @type {Pageable}
    * @memberof PagePDFSponsor
    */
   pageable?: Pageable;
+  /**
+   *
+   * @type {number}
+   * @memberof PagePDFSponsor
+   */
+  number?: number;
   /**
    *
    * @type {boolean}
@@ -514,21 +514,30 @@ export const CompanySponsorControllerApiAxiosParamCreator = function (
   return {
     /**
      *
-     * @param {Pageable} pageable
+     * @param {number} page
+     * @param {number} size
      * @param {string} [town]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getCompanyHouseEntry: async (
-      pageable: Pageable,
+      page: number,
+      size: number,
       town?: string,
       options: any = {}
     ): Promise<RequestArgs> => {
-      // verify required parameter 'pageable' is not null or undefined
-      if (pageable === null || pageable === undefined) {
+      // verify required parameter 'page' is not null or undefined
+      if (page === null || page === undefined) {
         throw new RequiredError(
-          "pageable",
-          "Required parameter pageable was null or undefined when calling getCompanyHouseEntry."
+          "page",
+          "Required parameter page was null or undefined when calling getCompanyHouseEntry."
+        );
+      }
+      // verify required parameter 'size' is not null or undefined
+      if (size === null || size === undefined) {
+        throw new RequiredError(
+          "size",
+          "Required parameter size was null or undefined when calling getCompanyHouseEntry."
         );
       }
       const localVarPath = `/company`;
@@ -545,8 +554,12 @@ export const CompanySponsorControllerApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
-      if (pageable !== undefined) {
-        localVarQueryParameter["pageable"] = pageable;
+      if (page !== undefined) {
+        localVarQueryParameter["page"] = page;
+      }
+
+      if (size !== undefined) {
+        localVarQueryParameter["size"] = size;
       }
 
       if (town !== undefined) {
@@ -586,13 +599,15 @@ export const CompanySponsorControllerApiFp = function (
   return {
     /**
      *
-     * @param {Pageable} pageable
+     * @param {number} page
+     * @param {number} size
      * @param {string} [town]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getCompanyHouseEntry(
-      pageable: Pageable,
+      page: number,
+      size: number,
       town?: string,
       options?: any
     ): Promise<
@@ -603,7 +618,7 @@ export const CompanySponsorControllerApiFp = function (
     > {
       const localVarAxiosArgs = await CompanySponsorControllerApiAxiosParamCreator(
         configuration
-      ).getCompanyHouseEntry(pageable, town, options);
+      ).getCompanyHouseEntry(page, size, town, options);
       return (
         axios: AxiosInstance = globalAxios,
         basePath: string = BASE_PATH
@@ -630,18 +645,20 @@ export const CompanySponsorControllerApiFactory = function (
   return {
     /**
      *
-     * @param {Pageable} pageable
+     * @param {number} page
+     * @param {number} size
      * @param {string} [town]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getCompanyHouseEntry(
-      pageable: Pageable,
+      page: number,
+      size: number,
       town?: string,
       options?: any
     ): AxiosPromise<PageCompanySponsorDto> {
       return CompanySponsorControllerApiFp(configuration)
-        .getCompanyHouseEntry(pageable, town, options)
+        .getCompanyHouseEntry(page, size, town, options)
         .then((request) => request(axios, basePath));
     },
   };
@@ -656,19 +673,21 @@ export const CompanySponsorControllerApiFactory = function (
 export class CompanySponsorControllerApi extends BaseAPI {
   /**
    *
-   * @param {Pageable} pageable
+   * @param {number} page
+   * @param {number} size
    * @param {string} [town]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof CompanySponsorControllerApi
    */
   public getCompanyHouseEntry(
-    pageable: Pageable,
+    page: number,
+    size: number,
     town?: string,
     options?: any
   ) {
     return CompanySponsorControllerApiFp(this.configuration)
-      .getCompanyHouseEntry(pageable, town, options)
+      .getCompanyHouseEntry(page, size, town, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }
@@ -722,7 +741,7 @@ export const PdfSponsorControllerApiAxiosParamCreator = function (
         ...options.query,
       };
       // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-      //   delete localVarUrlObj.search;
+      // delete localVarUrlObj.search;
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = {

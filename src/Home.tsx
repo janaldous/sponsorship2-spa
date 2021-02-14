@@ -17,17 +17,17 @@ const columns = [
   {
     field: `companyNumberCH`,
     headerName: "Company Number (companyhouse.gov)",
-    width: 130,
+    width: 100,
   },
   {
     field: `companyNamePDF`,
     headerName: "Company Name (pdf)",
-    width: 130,
+    width: 180,
   },
   {
     field: "companyNameCH",
     headerName: "Company Name (companyhouse.gov)",
-    width: 130,
+    width: 180,
   },
   {
     field: "townPDF",
@@ -48,9 +48,13 @@ const columns = [
 
 const Home: React.FC<{}> = () => {
   const [rows, setRows] = React.useState<Array<CompanySponsorRow>>([]);
+  const pageSize = 10;
+  const [rowCount, setRowCount] = React.useState<number>(0);
+  const [page, setPage] = React.useState<number>(0);
 
   React.useEffect(() => {
-    SponsorshipApi.getCompanies(0, 10, "London").then((res) => {
+    SponsorshipApi.getCompanies(page, pageSize, "London").then((res) => {
+      setRowCount(res.data.totalElements || 0);
       setRows(
         res.data.content?.map((x) => ({
           id: x.id,
@@ -63,11 +67,22 @@ const Home: React.FC<{}> = () => {
         })) || []
       );
     });
-  }, []);
+  }, [page]);
 
   return (
-    <div style={{ height: 400, width: "100%" }}>
-      <DataGrid rows={rows} columns={columns} pageSize={5} checkboxSelection />
+    <div style={{ height: "100vh", width: "100%" }}>
+      <DataGrid
+        rows={rows}
+        rowCount={rowCount}
+        columns={columns}
+        pageSize={pageSize}
+        page={page}
+        onPageChange={(params) => setPage(params.page)}
+        paginationMode="server"
+        rowHeight={49}
+        pagination
+        checkboxSelection
+      />
     </div>
   );
 };
