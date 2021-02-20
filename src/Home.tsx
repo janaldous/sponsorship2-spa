@@ -48,7 +48,7 @@ const columns = [
 
 const Home: React.FC<{}> = () => {
   const [rows, setRows] = React.useState<Array<CompanySponsorRow>>([]);
-  const pageSize = 10;
+  const pageSize = 8;
   const [rowCount, setRowCount] = React.useState<number>(0);
   const [page, setPage] = React.useState<number>(0);
 
@@ -81,7 +81,6 @@ const Home: React.FC<{}> = () => {
         paginationMode="server"
         rowHeight={49}
         pagination
-        checkboxSelection
       />
     </div>
   );
