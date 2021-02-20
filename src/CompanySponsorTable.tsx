@@ -1,6 +1,8 @@
-import { DataGrid } from "@material-ui/data-grid";
+import { DataGrid, RowParams } from "@material-ui/data-grid";
 import * as React from "react";
+import { useHistory, useLocation, useParams } from "react-router-dom";
 import SponsorshipApi from "./api/generated/SponsorshipApi";
+import queryString from "query-string";
 
 interface CompanySponsorRow {
   id?: number;
@@ -46,14 +48,21 @@ const columns = [
   },
 ];
 
-const Home: React.FC<{}> = () => {
+const CompanySponsorTable: React.FC<{}> = () => {
   const [rows, setRows] = React.useState<Array<CompanySponsorRow>>([]);
   const pageSize = 8;
   const [rowCount, setRowCount] = React.useState<number>(0);
   const [page, setPage] = React.useState<number>(0);
 
+  const history = useHistory();
+  const location = useLocation();
+  const { zone } = queryString.parse(location.search);
+
   React.useEffect(() => {
-    SponsorshipApi.getCompanies(page, pageSize, 1).then((res) => {
+    if (!zone) {
+      throw new Error("Query parameter 'zone' is required");
+    }
+    SponsorshipApi.getCompanies(page, pageSize, +zone).then((res) => {
       setRowCount(res.data.totalElements || 0);
       setRows(
         res.data.content?.map((x) => ({
@@ -67,7 +76,7 @@ const Home: React.FC<{}> = () => {
         })) || []
       );
     });
-  }, [page]);
+  }, [page, zone]);
 
   return (
     <div style={{ height: "100vh", width: "100%" }}>
@@ -81,9 +90,12 @@ const Home: React.FC<{}> = () => {
         paginationMode="server"
         rowHeight={49}
         pagination
+        onRowClick={(param: RowParams) =>
+          history.push(`company/${param.row.id}`)
+        }
       />
     </div>
   );
 };
 
-export default Home;
+export default CompanySponsorTable;

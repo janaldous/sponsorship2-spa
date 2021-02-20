@@ -320,12 +320,6 @@ export interface PageCompanySponsorDto {
   sort?: Sort;
   /**
    *
-   * @type {number}
-   * @memberof PageCompanySponsorDto
-   */
-  numberOfElements?: number;
-  /**
-   *
    * @type {boolean}
    * @memberof PageCompanySponsorDto
    */
@@ -336,6 +330,12 @@ export interface PageCompanySponsorDto {
    * @memberof PageCompanySponsorDto
    */
   last?: boolean;
+  /**
+   *
+   * @type {number}
+   * @memberof PageCompanySponsorDto
+   */
+  numberOfElements?: number;
   /**
    *
    * @type {Pageable}
@@ -393,12 +393,6 @@ export interface PagePDFSponsor {
   sort?: Sort;
   /**
    *
-   * @type {number}
-   * @memberof PagePDFSponsor
-   */
-  numberOfElements?: number;
-  /**
-   *
    * @type {boolean}
    * @memberof PagePDFSponsor
    */
@@ -409,6 +403,12 @@ export interface PagePDFSponsor {
    * @memberof PagePDFSponsor
    */
   last?: boolean;
+  /**
+   *
+   * @type {number}
+   * @memberof PagePDFSponsor
+   */
+  numberOfElements?: number;
   /**
    *
    * @type {Pageable}
@@ -579,7 +579,59 @@ export const CompanySponsorControllerApiAxiosParamCreator = function (
         ...options.query,
       };
       // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-      //  delete localVarUrlObj.search;
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: globalImportUrl.format(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {number} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getCompanyHouseEntryById: async (
+      id: number,
+      options: any = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      if (id === null || id === undefined) {
+        throw new RequiredError(
+          "id",
+          "Required parameter id was null or undefined when calling getCompanyHouseEntryById."
+        );
+      }
+      const localVarPath = `/company/{id}`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id))
+      );
+      const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      localVarUrlObj.query = {
+        ...localVarUrlObj.query,
+        ...localVarQueryParameter,
+        ...options.query,
+      };
+      // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = {
@@ -637,6 +689,35 @@ export const CompanySponsorControllerApiFp = function (
         return axios.request(axiosRequestArgs);
       };
     },
+    /**
+     *
+     * @param {number} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getCompanyHouseEntryById(
+      id: number,
+      options?: any
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<CompanySponsorDto>
+    > {
+      const localVarAxiosArgs = await CompanySponsorControllerApiAxiosParamCreator(
+        configuration
+      ).getCompanyHouseEntryById(id, options);
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH
+      ) => {
+        const axiosRequestArgs = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
   };
 };
 
@@ -668,6 +749,20 @@ export const CompanySponsorControllerApiFactory = function (
         .getCompanyHouseEntry(page, size, zone, options)
         .then((request) => request(axios, basePath));
     },
+    /**
+     *
+     * @param {number} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getCompanyHouseEntryById(
+      id: number,
+      options?: any
+    ): AxiosPromise<CompanySponsorDto> {
+      return CompanySponsorControllerApiFp(configuration)
+        .getCompanyHouseEntryById(id, options)
+        .then((request) => request(axios, basePath));
+    },
   };
 };
 
@@ -695,6 +790,19 @@ export class CompanySponsorControllerApi extends BaseAPI {
   ) {
     return CompanySponsorControllerApiFp(this.configuration)
       .getCompanyHouseEntry(page, size, zone, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {number} id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CompanySponsorControllerApi
+   */
+  public getCompanyHouseEntryById(id: number, options?: any) {
+    return CompanySponsorControllerApiFp(this.configuration)
+      .getCompanyHouseEntryById(id, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }
@@ -748,7 +856,6 @@ export const PdfSponsorControllerApiAxiosParamCreator = function (
         ...options.query,
       };
       // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-      // delete localVarUrlObj.search;
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = {
