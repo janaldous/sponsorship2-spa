@@ -53,7 +53,7 @@ const Home: React.FC<{}> = () => {
   const [page, setPage] = React.useState<number>(0);
 
   React.useEffect(() => {
-    SponsorshipApi.getCompanies(page, pageSize, "London").then((res) => {
+    SponsorshipApi.getCompanies(page, pageSize, 1).then((res) => {
       setRowCount(res.data.totalElements || 0);
       setRows(
         res.data.content?.map((x) => ({

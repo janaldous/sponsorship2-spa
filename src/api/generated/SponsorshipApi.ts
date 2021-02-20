@@ -8,10 +8,10 @@ class SponsorshipApi {
   static getCompanies(
     page: number,
     size: number,
-    town?: string
+    zone: number
   ): AxiosPromise<PageCompanySponsorDto> {
     const companySponsorApi = CompanySponsorControllerApiFactory();
-    return companySponsorApi.getCompanyHouseEntry(page, size, town);
+    return companySponsorApi.getCompanyHouseEntry(page, size, zone);
   }
 }
 

@@ -320,6 +320,12 @@ export interface PageCompanySponsorDto {
   sort?: Sort;
   /**
    *
+   * @type {number}
+   * @memberof PageCompanySponsorDto
+   */
+  numberOfElements?: number;
+  /**
+   *
    * @type {boolean}
    * @memberof PageCompanySponsorDto
    */
@@ -330,12 +336,6 @@ export interface PageCompanySponsorDto {
    * @memberof PageCompanySponsorDto
    */
   last?: boolean;
-  /**
-   *
-   * @type {number}
-   * @memberof PageCompanySponsorDto
-   */
-  numberOfElements?: number;
   /**
    *
    * @type {Pageable}
@@ -393,6 +393,12 @@ export interface PagePDFSponsor {
   sort?: Sort;
   /**
    *
+   * @type {number}
+   * @memberof PagePDFSponsor
+   */
+  numberOfElements?: number;
+  /**
+   *
    * @type {boolean}
    * @memberof PagePDFSponsor
    */
@@ -403,12 +409,6 @@ export interface PagePDFSponsor {
    * @memberof PagePDFSponsor
    */
   last?: boolean;
-  /**
-   *
-   * @type {number}
-   * @memberof PagePDFSponsor
-   */
-  numberOfElements?: number;
   /**
    *
    * @type {Pageable}
@@ -516,14 +516,14 @@ export const CompanySponsorControllerApiAxiosParamCreator = function (
      *
      * @param {number} page
      * @param {number} size
-     * @param {string} [town]
+     * @param {number} zone
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getCompanyHouseEntry: async (
       page: number,
       size: number,
-      town?: string,
+      zone: number,
       options: any = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'page' is not null or undefined
@@ -538,6 +538,13 @@ export const CompanySponsorControllerApiAxiosParamCreator = function (
         throw new RequiredError(
           "size",
           "Required parameter size was null or undefined when calling getCompanyHouseEntry."
+        );
+      }
+      // verify required parameter 'zone' is not null or undefined
+      if (zone === null || zone === undefined) {
+        throw new RequiredError(
+          "zone",
+          "Required parameter zone was null or undefined when calling getCompanyHouseEntry."
         );
       }
       const localVarPath = `/company`;
@@ -562,8 +569,8 @@ export const CompanySponsorControllerApiAxiosParamCreator = function (
         localVarQueryParameter["size"] = size;
       }
 
-      if (town !== undefined) {
-        localVarQueryParameter["town"] = town;
+      if (zone !== undefined) {
+        localVarQueryParameter["zone"] = zone;
       }
 
       localVarUrlObj.query = {
@@ -572,7 +579,7 @@ export const CompanySponsorControllerApiAxiosParamCreator = function (
         ...options.query,
       };
       // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-      //   delete localVarUrlObj.search;
+      //  delete localVarUrlObj.search;
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = {
@@ -601,14 +608,14 @@ export const CompanySponsorControllerApiFp = function (
      *
      * @param {number} page
      * @param {number} size
-     * @param {string} [town]
+     * @param {number} zone
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getCompanyHouseEntry(
       page: number,
       size: number,
-      town?: string,
+      zone: number,
       options?: any
     ): Promise<
       (
@@ -618,7 +625,7 @@ export const CompanySponsorControllerApiFp = function (
     > {
       const localVarAxiosArgs = await CompanySponsorControllerApiAxiosParamCreator(
         configuration
-      ).getCompanyHouseEntry(page, size, town, options);
+      ).getCompanyHouseEntry(page, size, zone, options);
       return (
         axios: AxiosInstance = globalAxios,
         basePath: string = BASE_PATH
@@ -647,18 +654,18 @@ export const CompanySponsorControllerApiFactory = function (
      *
      * @param {number} page
      * @param {number} size
-     * @param {string} [town]
+     * @param {number} zone
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getCompanyHouseEntry(
       page: number,
       size: number,
-      town?: string,
+      zone: number,
       options?: any
     ): AxiosPromise<PageCompanySponsorDto> {
       return CompanySponsorControllerApiFp(configuration)
-        .getCompanyHouseEntry(page, size, town, options)
+        .getCompanyHouseEntry(page, size, zone, options)
         .then((request) => request(axios, basePath));
     },
   };
@@ -675,7 +682,7 @@ export class CompanySponsorControllerApi extends BaseAPI {
    *
    * @param {number} page
    * @param {number} size
-   * @param {string} [town]
+   * @param {number} zone
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof CompanySponsorControllerApi
@@ -683,11 +690,11 @@ export class CompanySponsorControllerApi extends BaseAPI {
   public getCompanyHouseEntry(
     page: number,
     size: number,
-    town?: string,
+    zone: number,
     options?: any
   ) {
     return CompanySponsorControllerApiFp(this.configuration)
-      .getCompanyHouseEntry(page, size, town, options)
+      .getCompanyHouseEntry(page, size, zone, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }
