@@ -1,6 +1,7 @@
 import { AxiosPromise } from "axios";
 import {
   CompanySponsorControllerApiFactory,
+  CompanySponsorDetailResponse,
   CompanySponsorDto,
   PageCompanySponsorDto,
 } from "./api";
@@ -15,7 +16,7 @@ class SponsorshipApi {
     return companySponsorApi.getCompanyHouseEntry(page, size, zone);
   }
 
-  static getCompany(id: number): AxiosPromise<CompanySponsorDto> {
+  static getCompany(id: number): AxiosPromise<CompanySponsorDetailResponse> {
     const companySponsorApi = CompanySponsorControllerApiFactory();
     return companySponsorApi.getCompanyHouseEntryById(id);
   }

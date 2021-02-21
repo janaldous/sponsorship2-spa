@@ -125,6 +125,25 @@ export interface CompanyHouseEntryDto {
 /**
  *
  * @export
+ * @interface CompanySponsorDetailResponse
+ */
+export interface CompanySponsorDetailResponse {
+  /**
+   *
+   * @type {CompanySponsorDto}
+   * @memberof CompanySponsorDetailResponse
+   */
+  companySponsor?: CompanySponsorDto;
+  /**
+   *
+   * @type {Array<TubeStationDto>}
+   * @memberof CompanySponsorDetailResponse
+   */
+  nearbyTubeStations?: Array<TubeStationDto>;
+}
+/**
+ *
+ * @export
  * @interface CompanySponsorDto
  */
 export interface CompanySponsorDto {
@@ -293,13 +312,13 @@ export interface PageCompanySponsorDto {
    * @type {number}
    * @memberof PageCompanySponsorDto
    */
-  totalElements?: number;
+  totalPages?: number;
   /**
    *
    * @type {number}
    * @memberof PageCompanySponsorDto
    */
-  totalPages?: number;
+  totalElements?: number;
   /**
    *
    * @type {number}
@@ -312,6 +331,12 @@ export interface PageCompanySponsorDto {
    * @memberof PageCompanySponsorDto
    */
   content?: Array<CompanySponsorDto>;
+  /**
+   *
+   * @type {number}
+   * @memberof PageCompanySponsorDto
+   */
+  number?: number;
   /**
    *
    * @type {Sort}
@@ -342,12 +367,6 @@ export interface PageCompanySponsorDto {
    * @memberof PageCompanySponsorDto
    */
   pageable?: Pageable;
-  /**
-   *
-   * @type {number}
-   * @memberof PageCompanySponsorDto
-   */
-  number?: number;
   /**
    *
    * @type {boolean}
@@ -366,13 +385,13 @@ export interface PagePDFSponsor {
    * @type {number}
    * @memberof PagePDFSponsor
    */
-  totalElements?: number;
+  totalPages?: number;
   /**
    *
    * @type {number}
    * @memberof PagePDFSponsor
    */
-  totalPages?: number;
+  totalElements?: number;
   /**
    *
    * @type {number}
@@ -385,6 +404,12 @@ export interface PagePDFSponsor {
    * @memberof PagePDFSponsor
    */
   content?: Array<PDFSponsor>;
+  /**
+   *
+   * @type {number}
+   * @memberof PagePDFSponsor
+   */
+  number?: number;
   /**
    *
    * @type {Sort}
@@ -415,12 +440,6 @@ export interface PagePDFSponsor {
    * @memberof PagePDFSponsor
    */
   pageable?: Pageable;
-  /**
-   *
-   * @type {number}
-   * @memberof PagePDFSponsor
-   */
-  number?: number;
   /**
    *
    * @type {boolean}
@@ -489,19 +508,56 @@ export interface Sort {
    * @type {boolean}
    * @memberof Sort
    */
-  sorted?: boolean;
-  /**
-   *
-   * @type {boolean}
-   * @memberof Sort
-   */
   unsorted?: boolean;
   /**
    *
    * @type {boolean}
    * @memberof Sort
    */
+  sorted?: boolean;
+  /**
+   *
+   * @type {boolean}
+   * @memberof Sort
+   */
   empty?: boolean;
+}
+/**
+ *
+ * @export
+ * @interface TubeStationDto
+ */
+export interface TubeStationDto {
+  /**
+   *
+   * @type {number}
+   * @memberof TubeStationDto
+   */
+  id?: number;
+  /**
+   *
+   * @type {string}
+   * @memberof TubeStationDto
+   */
+  stationName?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof TubeStationDto
+   */
+  address?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof TubeStationDto
+   */
+  postCodeDistrict?: string;
+  /**
+   *
+   * @type {number}
+   * @memberof TubeStationDto
+   */
+  zone?: number;
 }
 
 /**
@@ -702,7 +758,7 @@ export const CompanySponsorControllerApiFp = function (
       (
         axios?: AxiosInstance,
         basePath?: string
-      ) => AxiosPromise<CompanySponsorDto>
+      ) => AxiosPromise<CompanySponsorDetailResponse>
     > {
       const localVarAxiosArgs = await CompanySponsorControllerApiAxiosParamCreator(
         configuration
@@ -758,7 +814,7 @@ export const CompanySponsorControllerApiFactory = function (
     getCompanyHouseEntryById(
       id: number,
       options?: any
-    ): AxiosPromise<CompanySponsorDto> {
+    ): AxiosPromise<CompanySponsorDetailResponse> {
       return CompanySponsorControllerApiFp(configuration)
         .getCompanyHouseEntryById(id, options)
         .then((request) => request(axios, basePath));
