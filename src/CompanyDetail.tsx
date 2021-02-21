@@ -19,7 +19,14 @@ const CompanyDetail: React.FC<{}> = (props) => {
     });
   }, []);
 
-  return <div>{companySponsor?.companyHouseEntry?.companyName}</div>;
+  return (
+    <div>
+      <div>{companySponsor?.companyHouseEntry?.companyName}</div>
+      <pre style={{ textAlign: "start" }}>
+        {JSON.stringify(companySponsor, null, 2)}
+      </pre>
+    </div>
+  );
 };
 
 export default CompanyDetail;
