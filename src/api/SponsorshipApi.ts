@@ -3,10 +3,9 @@ import {
   CompanySearchResponse,
   CompanySponsorControllerApiFactory,
   CompanySponsorDetailResponse,
-  CompanySponsorDto,
   JobApplicationControllerApiFactory,
-  JobApplicationCreateDto,
   JobApplicationDto,
+  JobApplicationEventDto,
   PageCompanySponsorDto,
   UkTierSponsorControllerApiFactory,
 } from "./generated/api";
@@ -39,7 +38,7 @@ class SponsorshipApi {
   }
 
   static postJobApplicationEvent(
-    jobApplication: JobApplicationCreateDto
+    jobApplication: JobApplicationEventDto
   ): AxiosPromise<any> {
     const api = JobApplicationControllerApiFactory();
     return api.postNewJobApplication(jobApplication);

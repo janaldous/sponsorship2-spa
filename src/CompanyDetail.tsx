@@ -14,11 +14,12 @@ import { useParams } from "react-router";
 import {
   CompanySearchResponse,
   CompanySponsorDetailResponse,
-  JobApplicationCreateDto,
-  JobApplicationCreateDtoApplicationMethodEnum,
-  JobApplicationCreateDtoStatusEnum,
-  JobApplicationCreateDtoTechCompanyTypeEnum,
   JobApplicationDto,
+  JobApplicationEventDto,
+  JobApplicationEventDtoApplicationMethodEnum,
+  JobApplicationEventDtoCategoriesEnum,
+  JobApplicationEventDtoStatusEnum,
+  JobApplicationEventDtoTechStackEnum,
 } from "./api/generated";
 import SponsorshipApi from "./api/SponsorshipApi";
 
@@ -37,7 +38,7 @@ const CompanyDetail: React.FC<{}> = (props) => {
   const [
     jobApplication,
     setJobApplication,
-  ] = React.useState<JobApplicationCreateDto>();
+  ] = React.useState<JobApplicationEventDto>();
   const [jobApplicationHistory, setJobApplicationHistory] = React.useState<
     Array<JobApplicationDto>
   >();
@@ -110,7 +111,9 @@ const CompanyDetail: React.FC<{}> = (props) => {
         {JSON.stringify(companySponsor, null, 2)}
       </pre>
       <pre style={{ textAlign: "start" }}>
-        {JSON.stringify(ukTierSponsor, null, 2)}
+        {ukTierSponsor
+          ? JSON.stringify(ukTierSponsor, null, 2)
+          : "Loading uk tier sponsor"}
       </pre>
       <div style={{ textAlign: "start" }}>
         {ukTierSponsor &&
@@ -122,8 +125,23 @@ const CompanyDetail: React.FC<{}> = (props) => {
             </a>
           )}
       </div>
+      <div style={{ textAlign: "start" }}>
+        {ukTierSponsor &&
+          ukTierSponsor.companies &&
+          ukTierSponsor?.companies?.length > 0 &&
+          ukTierSponsor?.companies[0].socialWebsite && (
+            <a
+              target={"_blank"}
+              href={ukTierSponsor?.companies[0].socialWebsite}
+            >
+              {ukTierSponsor?.companies[0].socialWebsite}
+            </a>
+          )}
+      </div>
       <pre style={{ textAlign: "start" }}>
-        {JSON.stringify(jobApplicationHistory, null, 2)}
+        {jobApplicationHistory
+          ? JSON.stringify(jobApplicationHistory, null, 2)
+          : "Currently, no job application events"}
       </pre>
 
       <Button variant="contained" color="primary" onClick={handleOpenDialog}>
@@ -146,9 +164,11 @@ const CompanyDetail: React.FC<{}> = (props) => {
             value={jobApplication?.applicationMethod}
             onChange={handleChange}
           >
-            {Object.values(JobApplicationCreateDtoApplicationMethodEnum).map(
+            {Object.values(JobApplicationEventDtoApplicationMethodEnum).map(
               (method) => (
-                <MenuItem value={method}>{method}</MenuItem>
+                <MenuItem key={method} value={method}>
+                  {method}
+                </MenuItem>
               )
             )}
           </Select>
@@ -162,8 +182,10 @@ const CompanyDetail: React.FC<{}> = (props) => {
             value={jobApplication?.status}
             onChange={handleChange}
           >
-            {Object.values(JobApplicationCreateDtoStatusEnum).map((status) => (
-              <MenuItem value={status}>{status}</MenuItem>
+            {Object.values(JobApplicationEventDtoStatusEnum).map((status) => (
+              <MenuItem key={status} value={status}>
+                {status}
+              </MenuItem>
             ))}
           </Select>
           <InputLabel id="jobapplication-category-label">
@@ -172,13 +194,39 @@ const CompanyDetail: React.FC<{}> = (props) => {
           <Select
             labelId="jobapplication-category-label"
             id="jobapplication-category-select"
-            name="techCompanyType"
-            value={jobApplication?.techCompanyType}
+            name="categories"
+            value={
+              jobApplication?.categories?.map((tech) => tech.toString()) || []
+            }
             onChange={handleChange}
+            multiple
           >
-            {Object.values(JobApplicationCreateDtoTechCompanyTypeEnum).map(
+            {Object.values(JobApplicationEventDtoCategoriesEnum).map(
               (status) => (
-                <MenuItem value={status}>{status}</MenuItem>
+                <MenuItem key={status} value={status}>
+                  {status}
+                </MenuItem>
+              )
+            )}
+          </Select>
+          <InputLabel id="jobapplication-techstack-label">
+            Tech Stack
+          </InputLabel>
+          <Select
+            labelId="jobapplication-techstack-label"
+            id="jobapplication-techstack-select"
+            name="techStack"
+            value={
+              jobApplication?.techStack?.map((tech) => tech.toString()) || []
+            }
+            onChange={handleChange}
+            multiple
+          >
+            {Object.values(JobApplicationEventDtoTechStackEnum).map(
+              (status) => (
+                <MenuItem key={status} value={status}>
+                  {status}
+                </MenuItem>
               )
             )}
           </Select>
@@ -195,10 +243,30 @@ const CompanyDetail: React.FC<{}> = (props) => {
           <TextField
             autoFocus
             margin="dense"
+            id="linkedInUrl"
+            name="linkedInUrl"
+            label="LinkedIn URL"
+            type="text"
+            fullWidth
+            onChange={handleChange}
+          />
+          <TextField
+            autoFocus
+            margin="dense"
             id="email"
             name="email"
             label="Email Address"
             type="email"
+            fullWidth
+            onChange={handleChange}
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            id="notes"
+            name="notes"
+            label="Notes"
+            type="text"
             fullWidth
             onChange={handleChange}
           />

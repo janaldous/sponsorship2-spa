@@ -280,82 +280,6 @@ export enum CompanySponsorDtoFetchDataStatusEnum {
 /**
  *
  * @export
- * @interface JobApplicationCreateDto
- */
-export interface JobApplicationCreateDto {
-  /**
-   *
-   * @type {number}
-   * @memberof JobApplicationCreateDto
-   */
-  companySponsorId: number;
-  /**
-   *
-   * @type {string}
-   * @memberof JobApplicationCreateDto
-   */
-  applicationMethod?: JobApplicationCreateDtoApplicationMethodEnum;
-  /**
-   *
-   * @type {string}
-   * @memberof JobApplicationCreateDto
-   */
-  status?: JobApplicationCreateDtoStatusEnum;
-  /**
-   *
-   * @type {string}
-   * @memberof JobApplicationCreateDto
-   */
-  techCompanyType?: JobApplicationCreateDtoTechCompanyTypeEnum;
-  /**
-   *
-   * @type {string}
-   * @memberof JobApplicationCreateDto
-   */
-  website?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof JobApplicationCreateDto
-   */
-  email?: string;
-}
-
-/**
- * @export
- * @enum {string}
- */
-export enum JobApplicationCreateDtoApplicationMethodEnum {
-  WEBSITE = "WEBSITE",
-  LINKEDIN = "LINKEDIN",
-  EMAIL = "EMAIL",
-}
-/**
- * @export
- * @enum {string}
- */
-export enum JobApplicationCreateDtoStatusEnum {
-  APPLIED = "APPLIED",
-  INPROGRESS = "IN_PROGRESS",
-  REJECTED = "REJECTED",
-  DEFERRED = "DEFERRED",
-  CHECKEDNOWEBSITE = "CHECKED_NO_WEBSITE",
-  CHECKEDNOCAREERSPAGE = "CHECKED_NO_CAREERS_PAGE",
-  CHECKEDCAREERSPAGENOJOBS = "CHECKED_CAREERS_PAGE_NO_JOBS",
-  CHECKEDLINKEDINNOJOBS = "CHECKED_LINKED_IN_NO_JOBS",
-}
-/**
- * @export
- * @enum {string}
- */
-export enum JobApplicationCreateDtoTechCompanyTypeEnum {
-  CLOUD = "CLOUD",
-  SOFTWAREDEV = "SOFTWARE_DEV",
-}
-
-/**
- *
- * @export
  * @interface JobApplicationDto
  */
 export interface JobApplicationDto {
@@ -391,10 +315,16 @@ export interface JobApplicationDto {
   status?: JobApplicationDtoStatusEnum;
   /**
    *
-   * @type {string}
+   * @type {Array<string>}
    * @memberof JobApplicationDto
    */
-  techCompanyType?: JobApplicationDtoTechCompanyTypeEnum;
+  categories?: Array<JobApplicationDtoCategoriesEnum>;
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof JobApplicationDto
+   */
+  techStack?: Array<JobApplicationDtoTechStackEnum>;
   /**
    *
    * @type {string}
@@ -406,7 +336,19 @@ export interface JobApplicationDto {
    * @type {string}
    * @memberof JobApplicationDto
    */
+  linkedInUrl?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof JobApplicationDto
+   */
   email?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof JobApplicationDto
+   */
+  notes?: string;
 }
 
 /**
@@ -431,14 +373,160 @@ export enum JobApplicationDtoStatusEnum {
   CHECKEDNOCAREERSPAGE = "CHECKED_NO_CAREERS_PAGE",
   CHECKEDCAREERSPAGENOJOBS = "CHECKED_CAREERS_PAGE_NO_JOBS",
   CHECKEDLINKEDINNOJOBS = "CHECKED_LINKED_IN_NO_JOBS",
+  CHECKEDCAREERSPAGENOTQUALIFIED = "CHECKED_CAREERS_PAGE_NOT_QUALIFIED",
+  NOTTECHCOMPANY = "NOT_TECH_COMPANY",
+  NOLONDONTECHJOBS = "NO_LONDON_TECH_JOBS",
 }
 /**
  * @export
  * @enum {string}
  */
-export enum JobApplicationDtoTechCompanyTypeEnum {
+export enum JobApplicationDtoCategoriesEnum {
   CLOUD = "CLOUD",
   SOFTWAREDEV = "SOFTWARE_DEV",
+  MEDTECH = "MEDTECH",
+  FINTECH = "FINTECH",
+}
+/**
+ * @export
+ * @enum {string}
+ */
+export enum JobApplicationDtoTechStackEnum {
+  JAVA = "JAVA",
+  CSHARP = "C_SHARP",
+  PYTHON = "PYTHON",
+  K8S = "K8S",
+  REACT = "REACT",
+  ANGULAR = "ANGULAR",
+  VUE = "VUE",
+  JS = "JS",
+  TS = "TS",
+  REDUX = "REDUX",
+  NODE = "NODE",
+  EXPRESS = "EXPRESS",
+  AWS = "AWS",
+  GCP = "GCP",
+  NOSQL = "NO_SQL",
+}
+
+/**
+ *
+ * @export
+ * @interface JobApplicationEventDto
+ */
+export interface JobApplicationEventDto {
+  /**
+   *
+   * @type {number}
+   * @memberof JobApplicationEventDto
+   */
+  companySponsorId: number;
+  /**
+   *
+   * @type {string}
+   * @memberof JobApplicationEventDto
+   */
+  applicationMethod?: JobApplicationEventDtoApplicationMethodEnum;
+  /**
+   *
+   * @type {string}
+   * @memberof JobApplicationEventDto
+   */
+  status?: JobApplicationEventDtoStatusEnum;
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof JobApplicationEventDto
+   */
+  categories?: Array<JobApplicationEventDtoCategoriesEnum>;
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof JobApplicationEventDto
+   */
+  techStack?: Array<JobApplicationEventDtoTechStackEnum>;
+  /**
+   *
+   * @type {string}
+   * @memberof JobApplicationEventDto
+   */
+  website?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof JobApplicationEventDto
+   */
+  linkedInUrl?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof JobApplicationEventDto
+   */
+  email?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof JobApplicationEventDto
+   */
+  notes?: string;
+}
+
+/**
+ * @export
+ * @enum {string}
+ */
+export enum JobApplicationEventDtoApplicationMethodEnum {
+  WEBSITE = "WEBSITE",
+  LINKEDIN = "LINKEDIN",
+  EMAIL = "EMAIL",
+}
+/**
+ * @export
+ * @enum {string}
+ */
+export enum JobApplicationEventDtoStatusEnum {
+  APPLIED = "APPLIED",
+  INPROGRESS = "IN_PROGRESS",
+  REJECTED = "REJECTED",
+  DEFERRED = "DEFERRED",
+  CHECKEDNOWEBSITE = "CHECKED_NO_WEBSITE",
+  CHECKEDNOCAREERSPAGE = "CHECKED_NO_CAREERS_PAGE",
+  CHECKEDCAREERSPAGENOJOBS = "CHECKED_CAREERS_PAGE_NO_JOBS",
+  CHECKEDLINKEDINNOJOBS = "CHECKED_LINKED_IN_NO_JOBS",
+  CHECKEDCAREERSPAGENOTQUALIFIED = "CHECKED_CAREERS_PAGE_NOT_QUALIFIED",
+  NOTTECHCOMPANY = "NOT_TECH_COMPANY",
+  NOLONDONTECHJOBS = "NO_LONDON_TECH_JOBS",
+}
+/**
+ * @export
+ * @enum {string}
+ */
+export enum JobApplicationEventDtoCategoriesEnum {
+  CLOUD = "CLOUD",
+  SOFTWAREDEV = "SOFTWARE_DEV",
+  MEDTECH = "MEDTECH",
+  FINTECH = "FINTECH",
+}
+/**
+ * @export
+ * @enum {string}
+ */
+export enum JobApplicationEventDtoTechStackEnum {
+  JAVA = "JAVA",
+  CSHARP = "C_SHARP",
+  PYTHON = "PYTHON",
+  K8S = "K8S",
+  REACT = "REACT",
+  ANGULAR = "ANGULAR",
+  VUE = "VUE",
+  JS = "JS",
+  TS = "TS",
+  REDUX = "REDUX",
+  NODE = "NODE",
+  EXPRESS = "EXPRESS",
+  AWS = "AWS",
+  GCP = "GCP",
+  NOSQL = "NO_SQL",
 }
 
 /**
@@ -550,19 +638,13 @@ export interface PageCompanySponsorDto {
    * @type {number}
    * @memberof PageCompanySponsorDto
    */
-  totalElements?: number;
+  totalPages?: number;
   /**
    *
    * @type {number}
    * @memberof PageCompanySponsorDto
    */
-  totalPages?: number;
-  /**
-   *
-   * @type {Sort}
-   * @memberof PageCompanySponsorDto
-   */
-  sort?: Sort;
+  totalElements?: number;
   /**
    *
    * @type {boolean}
@@ -607,6 +689,12 @@ export interface PageCompanySponsorDto {
   content?: Array<CompanySponsorDto>;
   /**
    *
+   * @type {Sort}
+   * @memberof PageCompanySponsorDto
+   */
+  sort?: Sort;
+  /**
+   *
    * @type {boolean}
    * @memberof PageCompanySponsorDto
    */
@@ -623,19 +711,13 @@ export interface PagePDFSponsor {
    * @type {number}
    * @memberof PagePDFSponsor
    */
-  totalElements?: number;
+  totalPages?: number;
   /**
    *
    * @type {number}
    * @memberof PagePDFSponsor
    */
-  totalPages?: number;
-  /**
-   *
-   * @type {Sort}
-   * @memberof PagePDFSponsor
-   */
-  sort?: Sort;
+  totalElements?: number;
   /**
    *
    * @type {boolean}
@@ -678,6 +760,12 @@ export interface PagePDFSponsor {
    * @memberof PagePDFSponsor
    */
   content?: Array<PDFSponsor>;
+  /**
+   *
+   * @type {Sort}
+   * @memberof PagePDFSponsor
+   */
+  sort?: Sort;
   /**
    *
    * @type {boolean}
@@ -1222,22 +1310,22 @@ export const JobApplicationControllerApiAxiosParamCreator = function (
     },
     /**
      *
-     * @param {JobApplicationCreateDto} jobApplicationCreateDto
+     * @param {JobApplicationEventDto} jobApplicationEventDto
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     postNewJobApplication: async (
-      jobApplicationCreateDto: JobApplicationCreateDto,
+      jobApplicationEventDto: JobApplicationEventDto,
       options: any = {}
     ): Promise<RequestArgs> => {
-      // verify required parameter 'jobApplicationCreateDto' is not null or undefined
+      // verify required parameter 'jobApplicationEventDto' is not null or undefined
       if (
-        jobApplicationCreateDto === null ||
-        jobApplicationCreateDto === undefined
+        jobApplicationEventDto === null ||
+        jobApplicationEventDto === undefined
       ) {
         throw new RequiredError(
-          "jobApplicationCreateDto",
-          "Required parameter jobApplicationCreateDto was null or undefined when calling postNewJobApplication."
+          "jobApplicationEventDto",
+          "Required parameter jobApplicationEventDto was null or undefined when calling postNewJobApplication."
         );
       }
       const localVarPath = `/jobapplication`;
@@ -1271,13 +1359,13 @@ export const JobApplicationControllerApiAxiosParamCreator = function (
         ...options.headers,
       };
       const needsSerialization =
-        typeof jobApplicationCreateDto !== "string" ||
+        typeof jobApplicationEventDto !== "string" ||
         localVarRequestOptions.headers["Content-Type"] === "application/json";
       localVarRequestOptions.data = needsSerialization
         ? JSON.stringify(
-            jobApplicationCreateDto !== undefined ? jobApplicationCreateDto : {}
+            jobApplicationEventDto !== undefined ? jobApplicationEventDto : {}
           )
-        : jobApplicationCreateDto || "";
+        : jobApplicationEventDto || "";
 
       return {
         url: globalImportUrl.format(localVarUrlObj),
@@ -1355,12 +1443,12 @@ export const JobApplicationControllerApiFp = function (
     },
     /**
      *
-     * @param {JobApplicationCreateDto} jobApplicationCreateDto
+     * @param {JobApplicationEventDto} jobApplicationEventDto
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async postNewJobApplication(
-      jobApplicationCreateDto: JobApplicationCreateDto,
+      jobApplicationEventDto: JobApplicationEventDto,
       options?: any
     ): Promise<
       (
@@ -1370,7 +1458,7 @@ export const JobApplicationControllerApiFp = function (
     > {
       const localVarAxiosArgs = await JobApplicationControllerApiAxiosParamCreator(
         configuration
-      ).postNewJobApplication(jobApplicationCreateDto, options);
+      ).postNewJobApplication(jobApplicationEventDto, options);
       return (
         axios: AxiosInstance = globalAxios,
         basePath: string = BASE_PATH
@@ -1425,16 +1513,16 @@ export const JobApplicationControllerApiFactory = function (
     },
     /**
      *
-     * @param {JobApplicationCreateDto} jobApplicationCreateDto
+     * @param {JobApplicationEventDto} jobApplicationEventDto
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     postNewJobApplication(
-      jobApplicationCreateDto: JobApplicationCreateDto,
+      jobApplicationEventDto: JobApplicationEventDto,
       options?: any
     ): AxiosPromise<JobApplicationDto> {
       return JobApplicationControllerApiFp(configuration)
-        .postNewJobApplication(jobApplicationCreateDto, options)
+        .postNewJobApplication(jobApplicationEventDto, options)
         .then((request) => request(axios, basePath));
     },
   };
@@ -1475,17 +1563,17 @@ export class JobApplicationControllerApi extends BaseAPI {
 
   /**
    *
-   * @param {JobApplicationCreateDto} jobApplicationCreateDto
+   * @param {JobApplicationEventDto} jobApplicationEventDto
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof JobApplicationControllerApi
    */
   public postNewJobApplication(
-    jobApplicationCreateDto: JobApplicationCreateDto,
+    jobApplicationEventDto: JobApplicationEventDto,
     options?: any
   ) {
     return JobApplicationControllerApiFp(this.configuration)
-      .postNewJobApplication(jobApplicationCreateDto, options)
+      .postNewJobApplication(jobApplicationEventDto, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }
