@@ -6,6 +6,7 @@ import {
   CompanySponsorDto,
   JobApplicationControllerApiFactory,
   JobApplicationCreateDto,
+  JobApplicationDto,
   PageCompanySponsorDto,
   UkTierSponsorControllerApiFactory,
 } from "./generated/api";
@@ -28,6 +29,13 @@ class SponsorshipApi {
   static getUKTierSponsor(id: number): AxiosPromise<CompanySearchResponse> {
     const ukTierSponsorApi = UkTierSponsorControllerApiFactory();
     return ukTierSponsorApi.getUKTierSponsor(id);
+  }
+
+  static getJobApplicationByCompanySponsor(
+    companySponsorid: number
+  ): AxiosPromise<Array<JobApplicationDto>> {
+    const api = JobApplicationControllerApiFactory();
+    return api.getJobApplicationByFilter(companySponsorid);
   }
 
   static postJobApplicationEvent(
