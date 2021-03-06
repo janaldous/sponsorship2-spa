@@ -102,6 +102,38 @@ const CompanyDetail: React.FC<{}> = (props) => {
     }
   };
 
+  const setAsWebsite = () => {
+    if (
+      ukTierSponsor &&
+      ukTierSponsor.companies &&
+      ukTierSponsor?.companies?.length > 0 &&
+      ukTierSponsor?.companies[0].website
+    ) {
+      const website = ukTierSponsor?.companies[0].website;
+      setJobApplication((oldValue) => ({
+        ...oldValue,
+        companySponsorId: +id,
+        website,
+      }));
+    }
+  };
+
+  const setAsLinkedIn = () => {
+    if (
+      ukTierSponsor &&
+      ukTierSponsor.companies &&
+      ukTierSponsor?.companies?.length > 0 &&
+      ukTierSponsor?.companies[0].socialWebsite
+    ) {
+      const website = ukTierSponsor?.companies[0].socialWebsite;
+      setJobApplication((oldValue) => ({
+        ...oldValue,
+        companySponsorId: +id,
+        linkedInUrl: website,
+      }));
+    }
+  };
+
   return (
     <div>
       <div>
@@ -115,28 +147,38 @@ const CompanyDetail: React.FC<{}> = (props) => {
           ? JSON.stringify(ukTierSponsor, null, 2)
           : "Loading uk tier sponsor"}
       </pre>
-      <div style={{ textAlign: "start" }}>
-        {ukTierSponsor &&
-          ukTierSponsor.companies &&
-          ukTierSponsor?.companies?.length > 0 &&
-          ukTierSponsor?.companies[0].website && (
-            <a target={"_blank"} href={ukTierSponsor?.companies[0].website}>
-              {ukTierSponsor?.companies[0].website}
-            </a>
-          )}
+      <div style={{ display: "flex" }}>
+        <div style={{ textAlign: "start" }}>
+          {ukTierSponsor &&
+            ukTierSponsor.companies &&
+            ukTierSponsor?.companies?.length > 0 &&
+            ukTierSponsor?.companies[0].website && (
+              <a target={"_blank"} href={ukTierSponsor?.companies[0].website}>
+                {ukTierSponsor?.companies[0].website}
+              </a>
+            )}
+        </div>
+        <Button variant="contained" color="primary" onClick={setAsWebsite}>
+          Set as Website
+        </Button>
       </div>
-      <div style={{ textAlign: "start" }}>
-        {ukTierSponsor &&
-          ukTierSponsor.companies &&
-          ukTierSponsor?.companies?.length > 0 &&
-          ukTierSponsor?.companies[0].socialWebsite && (
-            <a
-              target={"_blank"}
-              href={ukTierSponsor?.companies[0].socialWebsite}
-            >
-              {ukTierSponsor?.companies[0].socialWebsite}
-            </a>
-          )}
+      <div style={{ display: "flex" }}>
+        <div style={{ textAlign: "start" }}>
+          {ukTierSponsor &&
+            ukTierSponsor.companies &&
+            ukTierSponsor?.companies?.length > 0 &&
+            ukTierSponsor?.companies[0].socialWebsite && (
+              <a
+                target={"_blank"}
+                href={ukTierSponsor?.companies[0].socialWebsite}
+              >
+                {ukTierSponsor?.companies[0].socialWebsite}
+              </a>
+            )}
+        </div>
+        <Button variant="contained" color="primary" onClick={setAsLinkedIn}>
+          Set as LinkedIn
+        </Button>
       </div>
       <pre style={{ textAlign: "start" }}>
         {jobApplicationHistory
@@ -237,6 +279,7 @@ const CompanyDetail: React.FC<{}> = (props) => {
             name="website"
             label="Website"
             type="text"
+            value={jobApplication?.website}
             fullWidth
             onChange={handleChange}
           />
@@ -247,6 +290,7 @@ const CompanyDetail: React.FC<{}> = (props) => {
             name="linkedInUrl"
             label="LinkedIn URL"
             type="text"
+            value={jobApplication?.linkedInUrl}
             fullWidth
             onChange={handleChange}
           />
@@ -257,6 +301,7 @@ const CompanyDetail: React.FC<{}> = (props) => {
             name="email"
             label="Email Address"
             type="email"
+            value={jobApplication?.email}
             fullWidth
             onChange={handleChange}
           />
@@ -267,6 +312,7 @@ const CompanyDetail: React.FC<{}> = (props) => {
             name="notes"
             label="Notes"
             type="text"
+            value={jobApplication?.notes}
             fullWidth
             onChange={handleChange}
           />
