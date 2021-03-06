@@ -1,10 +1,12 @@
 import { AxiosPromise } from "axios";
 import {
+  CompanySearchResponse,
   CompanySponsorControllerApiFactory,
   CompanySponsorDetailResponse,
   CompanySponsorDto,
   PageCompanySponsorDto,
-} from "./api";
+  UkTierSponsorControllerApiFactory,
+} from "./generated/api";
 
 class SponsorshipApi {
   static getCompanies(
@@ -13,12 +15,17 @@ class SponsorshipApi {
     zone: number
   ): AxiosPromise<PageCompanySponsorDto> {
     const companySponsorApi = CompanySponsorControllerApiFactory();
-    return companySponsorApi.getCompanyHouseEntry(page, size, zone);
+    return companySponsorApi.getCompanySponsor(page, size, zone);
   }
 
   static getCompany(id: number): AxiosPromise<CompanySponsorDetailResponse> {
     const companySponsorApi = CompanySponsorControllerApiFactory();
-    return companySponsorApi.getCompanyHouseEntryById(id);
+    return companySponsorApi.getCompanySponsorById(id);
+  }
+
+  static getUKTierSponsor(id: number): AxiosPromise<CompanySearchResponse> {
+    const ukTierSponsorApi = UkTierSponsorControllerApiFactory();
+    return ukTierSponsorApi.getUKTierSponsor(id);
   }
 }
 

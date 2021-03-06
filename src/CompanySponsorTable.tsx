@@ -1,7 +1,7 @@
 import { DataGrid, RowParams } from "@material-ui/data-grid";
 import * as React from "react";
 import { useHistory, useLocation, useParams } from "react-router-dom";
-import SponsorshipApi from "./api/generated/SponsorshipApi";
+import SponsorshipApi from "./api/SponsorshipApi";
 import queryString from "query-string";
 
 interface CompanySponsorRow {
