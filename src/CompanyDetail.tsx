@@ -1,4 +1,13 @@
-import { Button } from "@material-ui/core";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Drawer,
+  TextField,
+} from "@material-ui/core";
 import * as React from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
@@ -20,6 +29,7 @@ const CompanyDetail: React.FC<{}> = (props) => {
     ukTierSponsor,
     setUKTierSponsor,
   ] = React.useState<CompanySearchResponse>();
+  const [isDialogOpen, setDrawerOpen] = React.useState<boolean>(false);
   const { id } = useParams<CompanyDetailRequestParams>();
 
   React.useEffect(() => {
@@ -33,6 +43,9 @@ const CompanyDetail: React.FC<{}> = (props) => {
       setUKTierSponsor(res.data);
     });
   }, []);
+
+  const handleOpenDialog = () => setDrawerOpen(true);
+  const handleCloseDialog = () => setDrawerOpen(false);
 
   return (
     <div>
@@ -55,9 +68,39 @@ const CompanyDetail: React.FC<{}> = (props) => {
             </a>
           )}
       </div>
-      <Button variant="contained" color="primary">
+
+      <Button variant="contained" color="primary" onClick={handleOpenDialog}>
         Apply
       </Button>
+      <Dialog
+        open={isDialogOpen}
+        onClose={handleCloseDialog}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            To subscribe to this website, please enter your email address here.
+            We will send updates occasionally.
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Email Address"
+            type="email"
+            fullWidth
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleCloseDialog} color="primary">
+            Subscribe
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };
