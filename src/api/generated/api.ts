@@ -288,7 +288,7 @@ export interface JobApplicationCreateDto {
    * @type {number}
    * @memberof JobApplicationCreateDto
    */
-  companySponsorId?: number;
+  companySponsorId: number;
   /**
    *
    * @type {string}
@@ -341,6 +341,8 @@ export enum JobApplicationCreateDtoStatusEnum {
   DEFERRED = "DEFERRED",
   CHECKEDNOWEBSITE = "CHECKED_NO_WEBSITE",
   CHECKEDNOCAREERSPAGE = "CHECKED_NO_CAREERS_PAGE",
+  CHECKEDCAREERSPAGENOJOBS = "CHECKED_CAREERS_PAGE_NO_JOBS",
+  CHECKEDLINKEDINNOJOBS = "CHECKED_LINKED_IN_NO_JOBS",
 }
 /**
  * @export
@@ -427,6 +429,8 @@ export enum JobApplicationDtoStatusEnum {
   DEFERRED = "DEFERRED",
   CHECKEDNOWEBSITE = "CHECKED_NO_WEBSITE",
   CHECKEDNOCAREERSPAGE = "CHECKED_NO_CAREERS_PAGE",
+  CHECKEDCAREERSPAGENOJOBS = "CHECKED_CAREERS_PAGE_NO_JOBS",
+  CHECKEDLINKEDINNOJOBS = "CHECKED_LINKED_IN_NO_JOBS",
 }
 /**
  * @export
@@ -555,24 +559,6 @@ export interface PageCompanySponsorDto {
   totalPages?: number;
   /**
    *
-   * @type {number}
-   * @memberof PageCompanySponsorDto
-   */
-  size?: number;
-  /**
-   *
-   * @type {Array<CompanySponsorDto>}
-   * @memberof PageCompanySponsorDto
-   */
-  content?: Array<CompanySponsorDto>;
-  /**
-   *
-   * @type {number}
-   * @memberof PageCompanySponsorDto
-   */
-  number?: number;
-  /**
-   *
    * @type {Sort}
    * @memberof PageCompanySponsorDto
    */
@@ -601,6 +587,24 @@ export interface PageCompanySponsorDto {
    * @memberof PageCompanySponsorDto
    */
   pageable?: Pageable;
+  /**
+   *
+   * @type {number}
+   * @memberof PageCompanySponsorDto
+   */
+  number?: number;
+  /**
+   *
+   * @type {number}
+   * @memberof PageCompanySponsorDto
+   */
+  size?: number;
+  /**
+   *
+   * @type {Array<CompanySponsorDto>}
+   * @memberof PageCompanySponsorDto
+   */
+  content?: Array<CompanySponsorDto>;
   /**
    *
    * @type {boolean}
@@ -628,24 +632,6 @@ export interface PagePDFSponsor {
   totalPages?: number;
   /**
    *
-   * @type {number}
-   * @memberof PagePDFSponsor
-   */
-  size?: number;
-  /**
-   *
-   * @type {Array<PDFSponsor>}
-   * @memberof PagePDFSponsor
-   */
-  content?: Array<PDFSponsor>;
-  /**
-   *
-   * @type {number}
-   * @memberof PagePDFSponsor
-   */
-  number?: number;
-  /**
-   *
    * @type {Sort}
    * @memberof PagePDFSponsor
    */
@@ -674,6 +660,24 @@ export interface PagePDFSponsor {
    * @memberof PagePDFSponsor
    */
   pageable?: Pageable;
+  /**
+   *
+   * @type {number}
+   * @memberof PagePDFSponsor
+   */
+  number?: number;
+  /**
+   *
+   * @type {number}
+   * @memberof PagePDFSponsor
+   */
+  size?: number;
+  /**
+   *
+   * @type {Array<PDFSponsor>}
+   * @memberof PagePDFSponsor
+   */
+  content?: Array<PDFSponsor>;
   /**
    *
    * @type {boolean}
@@ -742,13 +746,13 @@ export interface Sort {
    * @type {boolean}
    * @memberof Sort
    */
-  unsorted?: boolean;
+  sorted?: boolean;
   /**
    *
    * @type {boolean}
    * @memberof Sort
    */
-  sorted?: boolean;
+  unsorted?: boolean;
   /**
    *
    * @type {boolean}
@@ -869,6 +873,7 @@ export const CompanySponsorControllerApiAxiosParamCreator = function (
         ...options.query,
       };
       // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = {
@@ -922,6 +927,7 @@ export const CompanySponsorControllerApiAxiosParamCreator = function (
         ...options.query,
       };
       // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = {
@@ -1145,6 +1151,7 @@ export const JobApplicationControllerApiAxiosParamCreator = function (
         ...options.query,
       };
       // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = {
@@ -1199,6 +1206,7 @@ export const JobApplicationControllerApiAxiosParamCreator = function (
         ...options.query,
       };
       // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = {
@@ -1254,6 +1262,7 @@ export const JobApplicationControllerApiAxiosParamCreator = function (
         ...options.query,
       };
       // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = {
@@ -1530,6 +1539,7 @@ export const PdfSponsorControllerApiAxiosParamCreator = function (
         ...options.query,
       };
       // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = {
@@ -1680,6 +1690,7 @@ export const UkTierSponsorControllerApiAxiosParamCreator = function (
         ...options.query,
       };
       // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = {

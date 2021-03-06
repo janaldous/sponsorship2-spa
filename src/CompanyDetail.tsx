@@ -18,6 +18,7 @@ import {
   JobApplicationCreateDtoApplicationMethodEnum,
   JobApplicationCreateDtoStatusEnum,
   JobApplicationCreateDtoTechCompanyTypeEnum,
+  JobApplicationDto,
 } from "./api/generated";
 import SponsorshipApi from "./api/SponsorshipApi";
 
@@ -37,7 +38,11 @@ const CompanyDetail: React.FC<{}> = (props) => {
     jobApplication,
     setJobApplication,
   ] = React.useState<JobApplicationCreateDto>();
+  const [jobApplicationHistory, setJobApplicationHistory] = React.useState<
+    Array<JobApplicationDto>
+  >();
   const [isDialogOpen, setDrawerOpen] = React.useState<boolean>(false);
+  const [submissionCount, setSubmissionCount] = React.useState<number>(0);
   const { id } = useParams<CompanyDetailRequestParams>();
 
   React.useEffect(() => {
@@ -50,13 +55,14 @@ const CompanyDetail: React.FC<{}> = (props) => {
     SponsorshipApi.getUKTierSponsor(+id).then((res) => {
       setUKTierSponsor(res.data);
     });
+    setJobApplication((oldValue) => ({ ...oldValue, companySponsorId: +id }));
   }, []);
 
-  const saveJobApplicationEvent = () => {
-    if (jobApplication) {
-      SponsorshipApi.postJobApplicationEvent(jobApplication);
-    }
-  };
+  React.useEffect(() => {
+    SponsorshipApi.getJobApplicationByCompanySponsor(+id).then((res) => {
+      setJobApplicationHistory(res.data);
+    });
+  }, [submissionCount]);
 
   const handleOpenDialog = () => setDrawerOpen(true);
   const handleCloseDialog = () => setDrawerOpen(false);
@@ -65,14 +71,33 @@ const CompanyDetail: React.FC<{}> = (props) => {
     e: React.ChangeEvent<{
       name?: string | undefined;
       value: unknown;
-    }>,
-    s: any
+    }>
   ) => {
-    const { name, value } = e.currentTarget;
+    const value = e.target.value as string;
+    const name = e.target.name as keyof typeof jobApplication;
     if (name) {
       setJobApplication((oldValue) => {
-        return { ...oldValue, [name]: value };
+        return { ...oldValue, companySponsorId: +id, [name]: value };
       });
+    } else {
+      console.warn("did not set state");
+    }
+  };
+
+  const handleSubmitForm = () => {
+    if (jobApplication) {
+      SponsorshipApi.postJobApplicationEvent(jobApplication)
+        .then(() => {
+          handleCloseDialog();
+          setSubmissionCount((oldValue) => ++oldValue);
+          alert("Successful");
+        })
+        .catch(() => {
+          alert("Something went wrong");
+        });
+    } else {
+      handleCloseDialog();
+      alert("Something went wrong");
     }
   };
 
@@ -97,6 +122,9 @@ const CompanyDetail: React.FC<{}> = (props) => {
             </a>
           )}
       </div>
+      <pre style={{ textAlign: "start" }}>
+        {JSON.stringify(jobApplicationHistory, null, 2)}
+      </pre>
 
       <Button variant="contained" color="primary" onClick={handleOpenDialog}>
         Apply
@@ -162,6 +190,7 @@ const CompanyDetail: React.FC<{}> = (props) => {
             label="Website"
             type="text"
             fullWidth
+            onChange={handleChange}
           />
           <TextField
             autoFocus
@@ -171,14 +200,15 @@ const CompanyDetail: React.FC<{}> = (props) => {
             label="Email Address"
             type="email"
             fullWidth
+            onChange={handleChange}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleCloseDialog} color="primary">
-            Subscribe
+          <Button onClick={handleSubmitForm} color="primary">
+            Sumbit
           </Button>
         </DialogActions>
       </Dialog>
