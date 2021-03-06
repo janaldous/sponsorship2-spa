@@ -52,7 +52,7 @@ const CompanySponsorTable: React.FC<{}> = () => {
   const [rows, setRows] = React.useState<Array<CompanySponsorRow>>([]);
   const pageSize = 8;
   const [rowCount, setRowCount] = React.useState<number>(0);
-  const [page, setPage] = React.useState<number>(0);
+  const [page, setPage] = React.useState<number>(1);
 
   const history = useHistory();
   const location = useLocation();
@@ -62,7 +62,7 @@ const CompanySponsorTable: React.FC<{}> = () => {
     if (!zone) {
       throw new Error("Query parameter 'zone' is required");
     }
-    SponsorshipApi.getCompanies(page, pageSize, +zone).then((res) => {
+    SponsorshipApi.getCompanies(page - 1, pageSize, +zone).then((res) => {
       setRowCount(res.data.totalElements || 0);
       setRows(
         res.data.content?.map((x) => ({
