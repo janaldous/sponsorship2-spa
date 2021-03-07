@@ -147,39 +147,39 @@ const CompanyDetail: React.FC<{}> = (props) => {
           ? JSON.stringify(ukTierSponsor, null, 2)
           : "Loading uk tier sponsor"}
       </pre>
-      <div style={{ display: "flex" }}>
-        <div style={{ textAlign: "start" }}>
-          {ukTierSponsor &&
-            ukTierSponsor.companies &&
-            ukTierSponsor?.companies?.length > 0 &&
-            ukTierSponsor?.companies[0].website && (
+      {ukTierSponsor &&
+        ukTierSponsor.companies &&
+        ukTierSponsor?.companies?.length > 0 &&
+        ukTierSponsor?.companies[0].website && (
+          <div style={{ display: "flex" }}>
+            <div style={{ textAlign: "start" }}>
               <a target={"_blank"} href={ukTierSponsor?.companies[0].website}>
                 {ukTierSponsor?.companies[0].website}
               </a>
-            )}
-        </div>
-        <Button variant="contained" color="primary" onClick={setAsWebsite}>
-          Set as Website
-        </Button>
-      </div>
-      <div style={{ display: "flex" }}>
-        <div style={{ textAlign: "start" }}>
-          {ukTierSponsor &&
-            ukTierSponsor.companies &&
-            ukTierSponsor?.companies?.length > 0 &&
-            ukTierSponsor?.companies[0].socialWebsite && (
+            </div>
+            <Button variant="contained" color="primary" onClick={setAsWebsite}>
+              Set as Website
+            </Button>
+          </div>
+        )}
+      {ukTierSponsor &&
+        ukTierSponsor.companies &&
+        ukTierSponsor?.companies?.length > 0 &&
+        ukTierSponsor?.companies[0].socialWebsite && (
+          <div style={{ display: "flex" }}>
+            <div style={{ textAlign: "start" }}>
               <a
                 target={"_blank"}
                 href={ukTierSponsor?.companies[0].socialWebsite}
               >
                 {ukTierSponsor?.companies[0].socialWebsite}
               </a>
-            )}
-        </div>
-        <Button variant="contained" color="primary" onClick={setAsLinkedIn}>
-          Set as LinkedIn
-        </Button>
-      </div>
+            </div>
+            <Button variant="contained" color="primary" onClick={setAsLinkedIn}>
+              Set as LinkedIn
+            </Button>
+          </div>
+        )}
       <pre style={{ textAlign: "start" }}>
         {jobApplicationHistory
           ? JSON.stringify(jobApplicationHistory, null, 2)

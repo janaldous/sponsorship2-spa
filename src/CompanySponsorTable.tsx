@@ -46,6 +46,11 @@ const columns = [
     headerName: "Post Code (companyhouse.gov)",
     width: 120,
   },
+  {
+    field: "checked",
+    headerName: "checked",
+    width: 20,
+  },
 ];
 
 const CompanySponsorTable: React.FC<{}> = () => {
@@ -73,6 +78,7 @@ const CompanySponsorTable: React.FC<{}> = () => {
           townPDF: x.pdfSponsor?.town,
           localityCH: x.companyHouseEntry?.addressLocality,
           postCodeCH: x.companyHouseEntry?.addressPostCode,
+          checked: x.checked,
         })) || []
       );
     });
