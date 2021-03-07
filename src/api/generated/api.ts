@@ -263,6 +263,12 @@ export interface CompanySponsorDto {
    * @memberof CompanySponsorDto
    */
   localityMatches?: boolean;
+  /**
+   *
+   * @type {boolean}
+   * @memberof CompanySponsorDto
+   */
+  checked?: boolean;
 }
 
 /**
@@ -649,30 +655,6 @@ export interface PageCompanySponsorDto {
   totalElements?: number;
   /**
    *
-   * @type {boolean}
-   * @memberof PageCompanySponsorDto
-   */
-  first?: boolean;
-  /**
-   *
-   * @type {boolean}
-   * @memberof PageCompanySponsorDto
-   */
-  last?: boolean;
-  /**
-   *
-   * @type {number}
-   * @memberof PageCompanySponsorDto
-   */
-  numberOfElements?: number;
-  /**
-   *
-   * @type {Pageable}
-   * @memberof PageCompanySponsorDto
-   */
-  pageable?: Pageable;
-  /**
-   *
    * @type {number}
    * @memberof PageCompanySponsorDto
    */
@@ -695,6 +677,30 @@ export interface PageCompanySponsorDto {
    * @memberof PageCompanySponsorDto
    */
   sort?: Sort;
+  /**
+   *
+   * @type {number}
+   * @memberof PageCompanySponsorDto
+   */
+  numberOfElements?: number;
+  /**
+   *
+   * @type {boolean}
+   * @memberof PageCompanySponsorDto
+   */
+  first?: boolean;
+  /**
+   *
+   * @type {boolean}
+   * @memberof PageCompanySponsorDto
+   */
+  last?: boolean;
+  /**
+   *
+   * @type {Pageable}
+   * @memberof PageCompanySponsorDto
+   */
+  pageable?: Pageable;
   /**
    *
    * @type {boolean}
@@ -722,30 +728,6 @@ export interface PagePDFSponsor {
   totalElements?: number;
   /**
    *
-   * @type {boolean}
-   * @memberof PagePDFSponsor
-   */
-  first?: boolean;
-  /**
-   *
-   * @type {boolean}
-   * @memberof PagePDFSponsor
-   */
-  last?: boolean;
-  /**
-   *
-   * @type {number}
-   * @memberof PagePDFSponsor
-   */
-  numberOfElements?: number;
-  /**
-   *
-   * @type {Pageable}
-   * @memberof PagePDFSponsor
-   */
-  pageable?: Pageable;
-  /**
-   *
    * @type {number}
    * @memberof PagePDFSponsor
    */
@@ -768,6 +750,30 @@ export interface PagePDFSponsor {
    * @memberof PagePDFSponsor
    */
   sort?: Sort;
+  /**
+   *
+   * @type {number}
+   * @memberof PagePDFSponsor
+   */
+  numberOfElements?: number;
+  /**
+   *
+   * @type {boolean}
+   * @memberof PagePDFSponsor
+   */
+  first?: boolean;
+  /**
+   *
+   * @type {boolean}
+   * @memberof PagePDFSponsor
+   */
+  last?: boolean;
+  /**
+   *
+   * @type {Pageable}
+   * @memberof PagePDFSponsor
+   */
+  pageable?: Pageable;
   /**
    *
    * @type {boolean}
