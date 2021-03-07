@@ -178,7 +178,9 @@ const CompanyDetail: React.FC<{}> = (props) => {
                     Object.entries(
                       companySponsor?.companySponsor?.companyHouseEntry
                     )
-                      .filter(([key, value]) => !!value)
+                      .filter(
+                        ([key, value]) => value !== null && value !== undefined
+                      )
                       .map(([key, value]) => (
                         <Row key={key} keyProp={key} value={value} />
                       ))}
@@ -240,7 +242,13 @@ const CompanyDetail: React.FC<{}> = (props) => {
                   ukTierSponsor?.companies?.length > 0 &&
                   ukTierSponsor?.companies[0].website && (
                     <div style={{ display: "flex" }}>
-                      <div style={{ flex: 1, textAlign: "start" }}>
+                      <div
+                        style={{
+                          flex: 1,
+                          textAlign: "start",
+                          wordBreak: "break-all",
+                        }}
+                      >
                         <a
                           target={"_blank"}
                           href={ukTierSponsor?.companies[0].website}
@@ -251,7 +259,7 @@ const CompanyDetail: React.FC<{}> = (props) => {
                       <div style={{ flex: 1 }}>
                         <Button
                           variant="contained"
-                          color="primary"
+                          color="default"
                           onClick={setAsWebsite}
                         >
                           Set as Website
@@ -334,7 +342,7 @@ const Row: React.FC<{ keyProp: string; value: any }> = (props) => {
           marginLeft: "4px",
         }}
       >
-        {props.value}
+        {props.value ? props.value.toString() : "-"}
       </div>
     </div>
   );
