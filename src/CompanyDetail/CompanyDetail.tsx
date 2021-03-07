@@ -20,8 +20,9 @@ import {
   JobApplicationEventDtoCategoriesEnum,
   JobApplicationEventDtoStatusEnum,
   JobApplicationEventDtoTechStackEnum,
-} from "./api/generated";
-import SponsorshipApi from "./api/SponsorshipApi";
+} from "../api/generated";
+import SponsorshipApi from "../api/SponsorshipApi";
+import JobApplicationFormDialog from "./JobApplicationFormDialog";
 
 interface CompanyDetailRequestParams {
   id: string;
@@ -189,143 +190,13 @@ const CompanyDetail: React.FC<{}> = (props) => {
       <Button variant="contained" color="primary" onClick={handleOpenDialog}>
         Apply
       </Button>
-      <Dialog
-        open={isDialogOpen}
-        onClose={handleCloseDialog}
-        aria-labelledby="form-dialog-title"
-      >
-        <DialogTitle id="form-dialog-title">Job Application</DialogTitle>
-        <DialogContent>
-          <InputLabel id="jobapplication-applicationmethod-label">
-            Application method
-          </InputLabel>
-          <Select
-            labelId="jobapplication-applicationmethod-label"
-            id="jobapplication-applicationmethod-select"
-            name="applicationMethod"
-            value={jobApplication?.applicationMethod}
-            onChange={handleChange}
-          >
-            {Object.values(JobApplicationEventDtoApplicationMethodEnum).map(
-              (method) => (
-                <MenuItem key={method} value={method}>
-                  {method}
-                </MenuItem>
-              )
-            )}
-          </Select>
-          <InputLabel id="jobapplication-status-label">
-            Application status
-          </InputLabel>
-          <Select
-            labelId="jobapplication-status-label"
-            id="jobapplication-status-select"
-            name="status"
-            value={jobApplication?.status}
-            onChange={handleChange}
-          >
-            {Object.values(JobApplicationEventDtoStatusEnum).map((status) => (
-              <MenuItem key={status} value={status}>
-                {status}
-              </MenuItem>
-            ))}
-          </Select>
-          <InputLabel id="jobapplication-category-label">
-            Tech Company Category
-          </InputLabel>
-          <Select
-            labelId="jobapplication-category-label"
-            id="jobapplication-category-select"
-            name="categories"
-            value={
-              jobApplication?.categories?.map((tech) => tech.toString()) || []
-            }
-            onChange={handleChange}
-            multiple
-          >
-            {Object.values(JobApplicationEventDtoCategoriesEnum).map(
-              (status) => (
-                <MenuItem key={status} value={status}>
-                  {status}
-                </MenuItem>
-              )
-            )}
-          </Select>
-          <InputLabel id="jobapplication-techstack-label">
-            Tech Stack
-          </InputLabel>
-          <Select
-            labelId="jobapplication-techstack-label"
-            id="jobapplication-techstack-select"
-            name="techStack"
-            value={
-              jobApplication?.techStack?.map((tech) => tech.toString()) || []
-            }
-            onChange={handleChange}
-            multiple
-          >
-            {Object.values(JobApplicationEventDtoTechStackEnum).map(
-              (status) => (
-                <MenuItem key={status} value={status}>
-                  {status}
-                </MenuItem>
-              )
-            )}
-          </Select>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="website"
-            name="website"
-            label="Website"
-            type="text"
-            value={jobApplication?.website}
-            fullWidth
-            onChange={handleChange}
-          />
-          <TextField
-            autoFocus
-            margin="dense"
-            id="linkedInUrl"
-            name="linkedInUrl"
-            label="LinkedIn URL"
-            type="text"
-            value={jobApplication?.linkedInUrl}
-            fullWidth
-            onChange={handleChange}
-          />
-          <TextField
-            autoFocus
-            margin="dense"
-            id="email"
-            name="email"
-            label="Email Address"
-            type="email"
-            value={jobApplication?.email}
-            fullWidth
-            onChange={handleChange}
-          />
-          <TextField
-            autoFocus
-            margin="dense"
-            id="notes"
-            name="notes"
-            label="Notes"
-            type="text"
-            value={jobApplication?.notes}
-            fullWidth
-            onChange={handleChange}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialog} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleSubmitForm} color="primary">
-            Sumbit
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <JobApplicationFormDialog
+        isDialogOpen={isDialogOpen}
+        onChangeInput={handleChange}
+        onCloseDialog={handleCloseDialog}
+        onSubmitForm={handleSubmitForm}
+        jobApplication={jobApplication}
+      />
     </div>
   );
 };
