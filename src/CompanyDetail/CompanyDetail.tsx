@@ -1,13 +1,15 @@
 import {
   Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
+  Card,
+  CardActionArea,
+  CardContent,
+  Typography,
+  CardActions,
+  createStyles,
+  Grid,
+  makeStyles,
+  Paper,
+  Theme,
 } from "@material-ui/core";
 import * as React from "react";
 import { useParams } from "react-router";
@@ -16,10 +18,6 @@ import {
   CompanySponsorDetailResponse,
   JobApplicationDto,
   JobApplicationEventDto,
-  JobApplicationEventDtoApplicationMethodEnum,
-  JobApplicationEventDtoCategoriesEnum,
-  JobApplicationEventDtoStatusEnum,
-  JobApplicationEventDtoTechStackEnum,
 } from "../api/generated";
 import SponsorshipApi from "../api/SponsorshipApi";
 import JobApplicationFormDialog from "./JobApplicationFormDialog";
@@ -135,8 +133,103 @@ const CompanyDetail: React.FC<{}> = (props) => {
     }
   };
 
+  const classes = useStyles();
+
   return (
     <div>
+      <Grid container spacing={3}>
+        <Grid item xs={4}>
+          <Card>
+            <CardActionArea>
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="h2">
+                  PDF Sponsor
+                </Typography>
+                <div>
+                  {companySponsor &&
+                    companySponsor?.companySponsor &&
+                    companySponsor.companySponsor.pdfSponsor &&
+                    Object.entries(
+                      companySponsor?.companySponsor?.pdfSponsor
+                    ).map(([key, value]) => (
+                      <Row key={key} keyProp={key} value={value} />
+                    ))}
+                </div>
+              </CardContent>
+            </CardActionArea>
+            <CardActions>
+              <Button size="small" color="primary">
+                Share
+              </Button>
+              <Button size="small" color="primary">
+                Learn More
+              </Button>
+            </CardActions>
+          </Card>
+        </Grid>
+        <Grid item xs={4}>
+          <Card>
+            <CardActionArea>
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="h2">
+                  Company Sponsor
+                </Typography>
+                <div>
+                  {companySponsor &&
+                    companySponsor?.companySponsor &&
+                    Object.entries(companySponsor?.companySponsor)
+                      .filter(
+                        ([key, value]) =>
+                          key !== "companyHouseEntry" && key !== "pdfSponsor"
+                      )
+                      .map(([key, value]) => (
+                        <Row key={key} keyProp={key} value={value} />
+                      ))}
+                </div>
+              </CardContent>
+            </CardActionArea>
+            <CardActions>
+              <Button size="small" color="primary">
+                Share
+              </Button>
+              <Button size="small" color="primary">
+                Learn More
+              </Button>
+            </CardActions>
+          </Card>
+        </Grid>
+        <Grid item xs={4}>
+          <Card>
+            <CardActionArea>
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="h2">
+                  Company House API
+                </Typography>
+                <div>
+                  {companySponsor &&
+                    companySponsor?.companySponsor &&
+                    companySponsor.companySponsor.companyHouseEntry &&
+                    Object.entries(
+                      companySponsor?.companySponsor?.companyHouseEntry
+                    )
+                      .filter(([key, value]) => !!value)
+                      .map(([key, value]) => (
+                        <Row key={key} keyProp={key} value={value} />
+                      ))}
+                </div>
+              </CardContent>
+            </CardActionArea>
+            <CardActions>
+              <Button size="small" color="primary">
+                Share
+              </Button>
+              <Button size="small" color="primary">
+                Learn More
+              </Button>
+            </CardActions>
+          </Card>
+        </Grid>
+      </Grid>
       <div>
         {companySponsor?.companySponsor?.companyHouseEntry?.companyName}
       </div>
@@ -197,6 +290,47 @@ const CompanyDetail: React.FC<{}> = (props) => {
         onSubmitForm={handleSubmitForm}
         jobApplication={jobApplication}
       />
+    </div>
+  );
+};
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    paper: {
+      padding: theme.spacing(2),
+      textAlign: "center",
+      color: theme.palette.text.secondary,
+    },
+  })
+);
+
+const Row: React.FC<{ keyProp: string; value: any }> = (props) => {
+  return (
+    <div
+      style={{
+        paddingBottom: "4px",
+        display: "flex",
+      }}
+    >
+      <div
+        style={{
+          flex: 1,
+          fontWeight: 600,
+          textAlign: "right",
+          marginRight: "4px",
+        }}
+      >
+        {props.keyProp}
+      </div>
+      <div
+        style={{
+          flex: 1,
+          textAlign: "left",
+          marginLeft: "4px",
+        }}
+      >
+        {props.value}
+      </div>
     </div>
   );
 };
