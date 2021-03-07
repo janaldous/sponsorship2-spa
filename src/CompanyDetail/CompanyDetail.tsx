@@ -12,6 +12,7 @@ import {
   Theme,
   ListItem,
   List,
+  ListItemText,
 } from "@material-ui/core";
 import * as React from "react";
 import { useParams } from "react-router";
@@ -23,6 +24,11 @@ import {
 } from "../api/generated";
 import SponsorshipApi from "../api/SponsorshipApi";
 import JobApplicationFormDialog from "./JobApplicationFormDialog";
+import { green } from "@material-ui/core/colors";
+import CheckBoxIcon from "@material-ui/icons/CheckBox";
+import parse from "date-fns/parse";
+import { differenceInDays } from "date-fns";
+import { differenceInHours } from "date-fns/esm";
 
 interface CompanyDetailRequestParams {
   id: string;
@@ -223,7 +229,9 @@ const CompanyDetail: React.FC<{}> = (props) => {
                   {companySponsor &&
                     companySponsor?.nearbyTubeStations &&
                     companySponsor.nearbyTubeStations.map((trainStation) => (
-                      <ListItem>{`${trainStation.stationName} [${trainStation.zone}]`}</ListItem>
+                      <ListItem
+                        key={trainStation.id}
+                      >{`${trainStation.stationName} [${trainStation.zone}]`}</ListItem>
                     ))}
                 </List>
               </CardContent>
@@ -278,9 +286,29 @@ const CompanyDetail: React.FC<{}> = (props) => {
                 <Typography gutterBottom variant="h5" component="h2">
                   Job Application Log
                 </Typography>
-                {jobApplicationHistory
-                  ? JSON.stringify(jobApplicationHistory, null, 2)
-                  : "Currently, no job application events"}
+                {!jobApplicationHistory &&
+                  "Currently, no job application events"}
+                <List>
+                  {jobApplicationHistory?.map((event) => (
+                    <ListItem key={event?.id}>
+                      <ListItemText primary={event?.id} />
+                      <ListItemText
+                        primary={
+                          event?.timestamp
+                            ? timeAgo(
+                                parse(
+                                  event?.timestamp,
+                                  "yyyy-MM-dd'T'HH:mm:ss.SSSSSS",
+                                  new Date()
+                                )
+                              )
+                            : null
+                        }
+                      />
+                      <ListItemText primary={event?.status} />
+                    </ListItem>
+                  ))}
+                </List>
               </CardContent>
             </CardActionArea>
             <CardActions>
@@ -342,10 +370,26 @@ const Row: React.FC<{ keyProp: string; value: any }> = (props) => {
           marginLeft: "4px",
         }}
       >
-        {props.value ? props.value.toString() : "-"}
+        {props.value !== null ? (
+          typeof props.value === "boolean" ? (
+            <CheckBoxIcon style={{ color: green[500] }} />
+          ) : (
+            props.value.toString()
+          )
+        ) : (
+          "-"
+        )}
       </div>
     </div>
   );
 };
 
 export default CompanyDetail;
+function timeAgo(date: Date): string {
+  const dayDifference = differenceInDays(new Date(), date);
+  if (dayDifference < 1) {
+    return differenceInHours(new Date(), date) + "h ago";
+  } else {
+    return dayDifference + " days ago";
+  }
+}
