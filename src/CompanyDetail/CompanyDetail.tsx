@@ -10,6 +10,8 @@ import {
   makeStyles,
   Paper,
   Theme,
+  ListItem,
+  List,
 } from "@material-ui/core";
 import * as React from "react";
 import { useParams } from "react-router";
@@ -137,6 +139,9 @@ const CompanyDetail: React.FC<{}> = (props) => {
 
   return (
     <div>
+      <Typography gutterBottom variant="h5" component="h1">
+        {companySponsor?.companySponsor?.companyHouseEntry?.companyName}
+      </Typography>
       <Grid container spacing={3}>
         <Grid item xs={4}>
           <Card>
@@ -157,45 +162,6 @@ const CompanyDetail: React.FC<{}> = (props) => {
                 </div>
               </CardContent>
             </CardActionArea>
-            <CardActions>
-              <Button size="small" color="primary">
-                Share
-              </Button>
-              <Button size="small" color="primary">
-                Learn More
-              </Button>
-            </CardActions>
-          </Card>
-        </Grid>
-        <Grid item xs={4}>
-          <Card>
-            <CardActionArea>
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="h2">
-                  Company Sponsor
-                </Typography>
-                <div>
-                  {companySponsor &&
-                    companySponsor?.companySponsor &&
-                    Object.entries(companySponsor?.companySponsor)
-                      .filter(
-                        ([key, value]) =>
-                          key !== "companyHouseEntry" && key !== "pdfSponsor"
-                      )
-                      .map(([key, value]) => (
-                        <Row key={key} keyProp={key} value={value} />
-                      ))}
-                </div>
-              </CardContent>
-            </CardActionArea>
-            <CardActions>
-              <Button size="small" color="primary">
-                Share
-              </Button>
-              <Button size="small" color="primary">
-                Learn More
-              </Button>
-            </CardActions>
           </Card>
         </Grid>
         <Grid item xs={4}>
@@ -219,70 +185,109 @@ const CompanyDetail: React.FC<{}> = (props) => {
                 </div>
               </CardContent>
             </CardActionArea>
+          </Card>
+        </Grid>
+        <Grid item xs={4}>
+          <Card>
+            <CardActionArea>
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="h2">
+                  Company Sponsor
+                </Typography>
+                <div>
+                  {companySponsor &&
+                    companySponsor?.companySponsor &&
+                    Object.entries(companySponsor?.companySponsor)
+                      .filter(
+                        ([key, value]) =>
+                          key !== "companyHouseEntry" && key !== "pdfSponsor"
+                      )
+                      .map(([key, value]) => (
+                        <Row key={key} keyProp={key} value={value} />
+                      ))}
+                </div>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+        </Grid>
+        <Grid item xs={4}>
+          <Card>
+            <CardActionArea>
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="h2">
+                  Nearby stations (based on postcode match)
+                </Typography>
+                <List>
+                  {companySponsor &&
+                    companySponsor?.nearbyTubeStations &&
+                    companySponsor.nearbyTubeStations.map((trainStation) => (
+                      <ListItem>{`${trainStation.stationName} [${trainStation.zone}]`}</ListItem>
+                    ))}
+                </List>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+        </Grid>
+        <Grid item xs={4}>
+          <Card>
+            <CardActionArea>
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="h2">
+                  uktiersponsor.co.uk
+                </Typography>
+                {ukTierSponsor &&
+                  ukTierSponsor.companies &&
+                  ukTierSponsor?.companies?.length > 0 &&
+                  ukTierSponsor?.companies[0].website && (
+                    <div style={{ display: "flex" }}>
+                      <div style={{ flex: 1, textAlign: "start" }}>
+                        <a
+                          target={"_blank"}
+                          href={ukTierSponsor?.companies[0].website}
+                        >
+                          {ukTierSponsor?.companies[0].website}
+                        </a>
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={setAsWebsite}
+                        >
+                          Set as Website
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+              </CardContent>
+            </CardActionArea>
+          </Card>
+        </Grid>
+        <Grid item xs={4}>
+          <Card>
+            <CardActionArea>
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="h2">
+                  Job Application Log
+                </Typography>
+                {jobApplicationHistory
+                  ? JSON.stringify(jobApplicationHistory, null, 2)
+                  : "Currently, no job application events"}
+              </CardContent>
+            </CardActionArea>
             <CardActions>
-              <Button size="small" color="primary">
-                Share
-              </Button>
-              <Button size="small" color="primary">
-                Learn More
+              <Button
+                variant="contained"
+                size="small"
+                color="primary"
+                onClick={handleOpenDialog}
+              >
+                Apply
               </Button>
             </CardActions>
           </Card>
         </Grid>
       </Grid>
-      <div>
-        {companySponsor?.companySponsor?.companyHouseEntry?.companyName}
-      </div>
-      <pre style={{ textAlign: "start" }}>
-        {JSON.stringify(companySponsor, null, 2)}
-      </pre>
-      <pre style={{ textAlign: "start" }}>
-        {ukTierSponsor
-          ? JSON.stringify(ukTierSponsor, null, 2)
-          : "Loading uk tier sponsor"}
-      </pre>
-      {ukTierSponsor &&
-        ukTierSponsor.companies &&
-        ukTierSponsor?.companies?.length > 0 &&
-        ukTierSponsor?.companies[0].website && (
-          <div style={{ display: "flex" }}>
-            <div style={{ textAlign: "start" }}>
-              <a target={"_blank"} href={ukTierSponsor?.companies[0].website}>
-                {ukTierSponsor?.companies[0].website}
-              </a>
-            </div>
-            <Button variant="contained" color="primary" onClick={setAsWebsite}>
-              Set as Website
-            </Button>
-          </div>
-        )}
-      {ukTierSponsor &&
-        ukTierSponsor.companies &&
-        ukTierSponsor?.companies?.length > 0 &&
-        ukTierSponsor?.companies[0].socialWebsite && (
-          <div style={{ display: "flex" }}>
-            <div style={{ textAlign: "start" }}>
-              <a
-                target={"_blank"}
-                href={ukTierSponsor?.companies[0].socialWebsite}
-              >
-                {ukTierSponsor?.companies[0].socialWebsite}
-              </a>
-            </div>
-            <Button variant="contained" color="primary" onClick={setAsLinkedIn}>
-              Set as LinkedIn
-            </Button>
-          </div>
-        )}
-      <pre style={{ textAlign: "start" }}>
-        {jobApplicationHistory
-          ? JSON.stringify(jobApplicationHistory, null, 2)
-          : "Currently, no job application events"}
-      </pre>
-
-      <Button variant="contained" color="primary" onClick={handleOpenDialog}>
-        Apply
-      </Button>
       <JobApplicationFormDialog
         isDialogOpen={isDialogOpen}
         onChangeInput={handleChange}
