@@ -2,18 +2,22 @@ import {
   Button,
   Card,
   CardActionArea,
-  CardContent,
-  Typography,
   CardActions,
+  CardContent,
   createStyles,
   Grid,
-  makeStyles,
-  Paper,
-  Theme,
-  ListItem,
   List,
+  ListItem,
   ListItemText,
+  makeStyles,
+  Theme,
+  Typography,
 } from "@material-ui/core";
+import { green } from "@material-ui/core/colors";
+import CheckBoxIcon from "@material-ui/icons/CheckBox";
+import { differenceInDays } from "date-fns";
+import { differenceInHours, differenceInMinutes } from "date-fns/esm";
+import parse from "date-fns/parse";
 import * as React from "react";
 import { useParams } from "react-router";
 import {
@@ -24,11 +28,6 @@ import {
 } from "../api/generated";
 import SponsorshipApi from "../api/SponsorshipApi";
 import JobApplicationFormDialog from "./JobApplicationFormDialog";
-import { green } from "@material-ui/core/colors";
-import CheckBoxIcon from "@material-ui/icons/CheckBox";
-import parse from "date-fns/parse";
-import { differenceInDays } from "date-fns";
-import { differenceInHours } from "date-fns/esm";
 
 interface CompanyDetailRequestParams {
   id: string;
@@ -249,7 +248,7 @@ const CompanyDetail: React.FC<{}> = (props) => {
                   ukTierSponsor.companies &&
                   ukTierSponsor?.companies?.length > 0 &&
                   ukTierSponsor?.companies[0].website && (
-                    <div style={{ display: "flex" }}>
+                    <div style={{ display: "flex", marginBottom: "4px" }}>
                       <div
                         style={{
                           flex: 1,
@@ -271,6 +270,36 @@ const CompanyDetail: React.FC<{}> = (props) => {
                           onClick={setAsWebsite}
                         >
                           Set as Website
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                {ukTierSponsor &&
+                  ukTierSponsor.companies &&
+                  ukTierSponsor?.companies?.length > 0 &&
+                  ukTierSponsor?.companies[0].socialWebsite && (
+                    <div style={{ display: "flex" }}>
+                      <div
+                        style={{
+                          flex: 1,
+                          textAlign: "start",
+                          wordBreak: "break-all",
+                        }}
+                      >
+                        <a
+                          target={"_blank"}
+                          href={ukTierSponsor?.companies[0].socialWebsite}
+                        >
+                          {ukTierSponsor?.companies[0].socialWebsite}
+                        </a>
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <Button
+                          variant="contained"
+                          color="default"
+                          onClick={setAsLinkedIn}
+                        >
+                          Set as LinkedIn
                         </Button>
                       </div>
                     </div>
@@ -388,7 +417,12 @@ export default CompanyDetail;
 function timeAgo(date: Date): string {
   const dayDifference = differenceInDays(new Date(), date);
   if (dayDifference < 1) {
-    return differenceInHours(new Date(), date) + "h ago";
+    const hourDifference = differenceInHours(new Date(), date);
+    if (hourDifference < 1) {
+      return differenceInMinutes(new Date(), date) + "min ago";
+    } else {
+      return hourDifference + "h ago";
+    }
   } else {
     return dayDifference + " days ago";
   }

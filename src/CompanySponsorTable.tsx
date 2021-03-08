@@ -1,8 +1,10 @@
-import { DataGrid, RowParams } from "@material-ui/data-grid";
-import * as React from "react";
-import { useHistory, useLocation, useParams } from "react-router-dom";
-import SponsorshipApi from "./api/SponsorshipApi";
+import { green } from "@material-ui/core/colors";
+import { Columns, DataGrid, RowParams } from "@material-ui/data-grid";
+import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import queryString from "query-string";
+import * as React from "react";
+import { useHistory, useLocation } from "react-router-dom";
+import SponsorshipApi from "./api/SponsorshipApi";
 
 interface CompanySponsorRow {
   id?: number;
@@ -14,7 +16,7 @@ interface CompanySponsorRow {
   postCodeCH?: string;
 }
 
-const columns = [
+const columns: Columns = [
   { field: "id", headerName: "ID", width: 70 },
   {
     field: `companyNumberCH`,
@@ -49,7 +51,13 @@ const columns = [
   {
     field: "checked",
     headerName: "checked",
-    width: 20,
+    width: 40,
+    renderCell: (params) =>
+      params.value ? (
+        <CheckBoxIcon style={{ color: green[500] }} />
+      ) : (
+        <div></div>
+      ),
   },
 ];
 
