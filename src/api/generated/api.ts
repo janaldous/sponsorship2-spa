@@ -679,12 +679,6 @@ export interface PageCompanySponsorDto {
   sort?: Sort;
   /**
    *
-   * @type {number}
-   * @memberof PageCompanySponsorDto
-   */
-  numberOfElements?: number;
-  /**
-   *
    * @type {boolean}
    * @memberof PageCompanySponsorDto
    */
@@ -695,6 +689,12 @@ export interface PageCompanySponsorDto {
    * @memberof PageCompanySponsorDto
    */
   last?: boolean;
+  /**
+   *
+   * @type {number}
+   * @memberof PageCompanySponsorDto
+   */
+  numberOfElements?: number;
   /**
    *
    * @type {Pageable}
@@ -752,12 +752,6 @@ export interface PagePDFSponsor {
   sort?: Sort;
   /**
    *
-   * @type {number}
-   * @memberof PagePDFSponsor
-   */
-  numberOfElements?: number;
-  /**
-   *
    * @type {boolean}
    * @memberof PagePDFSponsor
    */
@@ -768,6 +762,12 @@ export interface PagePDFSponsor {
    * @memberof PagePDFSponsor
    */
   last?: boolean;
+  /**
+   *
+   * @type {number}
+   * @memberof PagePDFSponsor
+   */
+  numberOfElements?: number;
   /**
    *
    * @type {Pageable}
@@ -855,6 +855,43 @@ export interface Sort {
    * @memberof Sort
    */
   empty?: boolean;
+}
+/**
+ *
+ * @export
+ * @interface TrainStation
+ */
+export interface TrainStation {
+  /**
+   *
+   * @type {string}
+   * @memberof TrainStation
+   */
+  name?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof TrainStation
+   */
+  zone?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof TrainStation
+   */
+  modes?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof TrainStation
+   */
+  lines?: string;
+  /**
+   *
+   * @type {number}
+   * @memberof TrainStation
+   */
+  distance?: number;
 }
 /**
  *
@@ -1582,6 +1619,160 @@ export class JobApplicationControllerApi extends BaseAPI {
   ) {
     return JobApplicationControllerApiFp(this.configuration)
       .postNewJobApplication(jobApplicationEventDto, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+}
+
+/**
+ * NearbyStopsControllerApi - axios parameter creator
+ * @export
+ */
+export const NearbyStopsControllerApiAxiosParamCreator = function (
+  configuration?: Configuration
+) {
+  return {
+    /**
+     *
+     * @param {string} postCode
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getNearbyStops: async (
+      postCode: string,
+      options: any = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'postCode' is not null or undefined
+      if (postCode === null || postCode === undefined) {
+        throw new RequiredError(
+          "postCode",
+          "Required parameter postCode was null or undefined when calling getNearbyStops."
+        );
+      }
+      const localVarPath = `/nearbystops`;
+      const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      if (postCode !== undefined) {
+        localVarQueryParameter["postCode"] = postCode;
+      }
+
+      localVarUrlObj.query = {
+        ...localVarUrlObj.query,
+        ...localVarQueryParameter,
+        ...options.query,
+      };
+      // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: globalImportUrl.format(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+  };
+};
+
+/**
+ * NearbyStopsControllerApi - functional programming interface
+ * @export
+ */
+export const NearbyStopsControllerApiFp = function (
+  configuration?: Configuration
+) {
+  return {
+    /**
+     *
+     * @param {string} postCode
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getNearbyStops(
+      postCode: string,
+      options?: any
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<Array<TrainStation>>
+    > {
+      const localVarAxiosArgs = await NearbyStopsControllerApiAxiosParamCreator(
+        configuration
+      ).getNearbyStops(postCode, options);
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH
+      ) => {
+        const axiosRequestArgs = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+  };
+};
+
+/**
+ * NearbyStopsControllerApi - factory interface
+ * @export
+ */
+export const NearbyStopsControllerApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance
+) {
+  return {
+    /**
+     *
+     * @param {string} postCode
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getNearbyStops(
+      postCode: string,
+      options?: any
+    ): AxiosPromise<Array<TrainStation>> {
+      return NearbyStopsControllerApiFp(configuration)
+        .getNearbyStops(postCode, options)
+        .then((request) => request(axios, basePath));
+    },
+  };
+};
+
+/**
+ * NearbyStopsControllerApi - object-oriented interface
+ * @export
+ * @class NearbyStopsControllerApi
+ * @extends {BaseAPI}
+ */
+export class NearbyStopsControllerApi extends BaseAPI {
+  /**
+   *
+   * @param {string} postCode
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof NearbyStopsControllerApi
+   */
+  public getNearbyStops(postCode: string, options?: any) {
+    return NearbyStopsControllerApiFp(this.configuration)
+      .getNearbyStops(postCode, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }
