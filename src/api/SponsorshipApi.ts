@@ -6,7 +6,9 @@ import {
   JobApplicationControllerApiFactory,
   JobApplicationDto,
   JobApplicationEventDto,
+  NearbyStopsControllerApiFactory,
   PageCompanySponsorDto,
+  TrainStation,
   UkTierSponsorControllerApiFactory,
 } from "./generated/api";
 
@@ -42,6 +44,10 @@ class SponsorshipApi {
   ): AxiosPromise<any> {
     const api = JobApplicationControllerApiFactory();
     return api.postNewJobApplication(jobApplication);
+  }
+
+  static getNearByStops(postCode: string): AxiosPromise<Array<TrainStation>> {
+    return NearbyStopsControllerApiFactory().getNearbyStops(postCode);
   }
 }
 

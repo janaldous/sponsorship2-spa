@@ -63,33 +63,36 @@ const columns: Columns = [
 
 const CompanySponsorTable: React.FC<{}> = () => {
   const [rows, setRows] = React.useState<Array<CompanySponsorRow>>([]);
-  const pageSize = 8;
+  const pageSizeDefault = 8;
   const [rowCount, setRowCount] = React.useState<number>(0);
   const [page, setPage] = React.useState<number>(1);
 
   const history = useHistory();
   const location = useLocation();
-  const { zone } = queryString.parse(location.search);
+  const { zone, pageIndex } = queryString.parse(location.search);
 
   React.useEffect(() => {
     if (!zone) {
       throw new Error("Query parameter 'zone' is required");
     }
-    SponsorshipApi.getCompanies(page - 1, pageSize, +zone).then((res) => {
-      setRowCount(res.data.totalElements || 0);
-      setRows(
-        res.data.content?.map((x) => ({
-          id: x.id,
-          companyNumberCH: x.companyHouseEntry?.companyNumber,
-          companyNamePDF: x.pdfSponsor?.companyName,
-          companyNameCH: x.companyHouseEntry?.companyName,
-          townPDF: x.pdfSponsor?.town,
-          localityCH: x.companyHouseEntry?.addressLocality,
-          postCodeCH: x.companyHouseEntry?.addressPostCode,
-          checked: x.checked,
-        })) || []
-      );
-    });
+    let pageLookup = page - 1;
+    SponsorshipApi.getCompanies(pageLookup, pageSizeDefault, +zone).then(
+      (res) => {
+        setRowCount(res.data.totalElements || 0);
+        setRows(
+          res.data.content?.map((x) => ({
+            id: x.id,
+            companyNumberCH: x.companyHouseEntry?.companyNumber,
+            companyNamePDF: x.pdfSponsor?.companyName,
+            companyNameCH: x.companyHouseEntry?.companyName,
+            townPDF: x.pdfSponsor?.town,
+            localityCH: x.companyHouseEntry?.addressLocality,
+            postCodeCH: x.companyHouseEntry?.addressPostCode,
+            checked: x.checked,
+          })) || []
+        );
+      }
+    );
   }, [page, zone]);
 
   return (
@@ -98,14 +101,19 @@ const CompanySponsorTable: React.FC<{}> = () => {
         rows={rows}
         rowCount={rowCount}
         columns={columns}
-        pageSize={pageSize}
+        pageSize={pageSizeDefault}
         page={page}
         onPageChange={(params) => setPage(params.page)}
         paginationMode="server"
         rowHeight={49}
         pagination
         onRowClick={(param: RowParams) =>
-          history.push(`company/${param.row.id}`)
+          history.push({
+            pathname: `company/${param.row.id}`,
+            search: `?redirect=${btoa(
+              "/company?zone=" + zone + "&pageIndex=" + page
+            )}`,
+          })
         }
       />
     </div>

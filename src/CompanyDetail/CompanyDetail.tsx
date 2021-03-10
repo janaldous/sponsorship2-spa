@@ -1,30 +1,37 @@
 import {
+  AppBar,
   Button,
   Card,
   CardActionArea,
   CardActions,
   CardContent,
   createStyles,
+  Divider,
   Grid,
+  IconButton,
   List,
   ListItem,
   ListItemText,
   makeStyles,
   Theme,
+  Toolbar,
   Typography,
 } from "@material-ui/core";
 import { green } from "@material-ui/core/colors";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import { differenceInDays } from "date-fns";
 import { differenceInHours, differenceInMinutes } from "date-fns/esm";
 import parse from "date-fns/parse";
+import queryString from "query-string";
 import * as React from "react";
-import { useParams } from "react-router";
+import { useHistory, useLocation, useParams } from "react-router";
 import {
   CompanySearchResponse,
   CompanySponsorDetailResponse,
   JobApplicationDto,
   JobApplicationEventDto,
+  TrainStation,
 } from "../api/generated";
 import SponsorshipApi from "../api/SponsorshipApi";
 import JobApplicationFormDialog from "./JobApplicationFormDialog";
@@ -50,7 +57,13 @@ const CompanyDetail: React.FC<{}> = (props) => {
   >();
   const [isDialogOpen, setDrawerOpen] = React.useState<boolean>(false);
   const [submissionCount, setSubmissionCount] = React.useState<number>(0);
+  const [nearbyTrainStations, setNearbyTrainStations] = React.useState<
+    Array<TrainStation>
+  >();
   const { id } = useParams<CompanyDetailRequestParams>();
+  const history = useHistory();
+  const location = useLocation();
+  const { redirect } = queryString.parse(location.search);
 
   React.useEffect(() => {
     if (isNaN(+id)) {
@@ -58,6 +71,13 @@ const CompanyDetail: React.FC<{}> = (props) => {
     }
     SponsorshipApi.getCompany(+id).then((res) => {
       setCompanySponsor(res.data);
+      const postCode =
+        res.data.companySponsor?.companyHouseEntry?.addressPostCode;
+      if (postCode) {
+        SponsorshipApi.getNearByStops(postCode).then((res2) => {
+          setNearbyTrainStations(res2.data);
+        });
+      }
     });
     SponsorshipApi.getUKTierSponsor(+id).then((res) => {
       setUKTierSponsor(res.data);
@@ -144,54 +164,85 @@ const CompanyDetail: React.FC<{}> = (props) => {
 
   return (
     <div>
-      <Typography gutterBottom variant="h5" component="h1">
-        {companySponsor?.companySponsor?.companyHouseEntry?.companyName}
-      </Typography>
+      <AppBar position="static" style={{ marginBottom: "8px" }}>
+        <Toolbar>
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            onClick={() =>
+              typeof redirect === "string" && history.push(atob(redirect))
+            }
+          >
+            <ArrowBackIosIcon />
+          </IconButton>
+          <Typography variant="h6" style={{ flexGrow: 1 }}>
+            {companySponsor?.companySponsor?.companyHouseEntry?.companyName}
+          </Typography>
+        </Toolbar>
+      </AppBar>
       <Grid container spacing={3}>
         <Grid item xs={4}>
           <Card>
-            <CardActionArea>
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="h2">
-                  PDF Sponsor
-                </Typography>
-                <div>
-                  {companySponsor &&
-                    companySponsor?.companySponsor &&
-                    companySponsor.companySponsor.pdfSponsor &&
-                    Object.entries(
-                      companySponsor?.companySponsor?.pdfSponsor
-                    ).map(([key, value]) => (
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="h2">
+                PDF Sponsor
+              </Typography>
+              <div>
+                {companySponsor &&
+                  companySponsor?.companySponsor &&
+                  companySponsor.companySponsor.pdfSponsor &&
+                  Object.entries(
+                    companySponsor?.companySponsor?.pdfSponsor
+                  ).map(([key, value]) => (
+                    <Row key={key} keyProp={key} value={value} />
+                  ))}
+              </div>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={4}>
+          <Card>
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="h2">
+                Company House API
+              </Typography>
+              <div>
+                {companySponsor &&
+                  companySponsor?.companySponsor &&
+                  companySponsor.companySponsor.companyHouseEntry &&
+                  Object.entries(
+                    companySponsor?.companySponsor?.companyHouseEntry
+                  )
+                    .filter(
+                      ([key, value]) => value !== null && value !== undefined
+                    )
+                    .map(([key, value]) => (
                       <Row key={key} keyProp={key} value={value} />
                     ))}
-                </div>
-              </CardContent>
-            </CardActionArea>
+              </div>
+            </CardContent>
           </Card>
         </Grid>
         <Grid item xs={4}>
           <Card>
-            <CardActionArea>
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="h2">
-                  Company House API
-                </Typography>
-                <div>
-                  {companySponsor &&
-                    companySponsor?.companySponsor &&
-                    companySponsor.companySponsor.companyHouseEntry &&
-                    Object.entries(
-                      companySponsor?.companySponsor?.companyHouseEntry
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="h2">
+                Company Sponsor
+              </Typography>
+              <div>
+                {companySponsor &&
+                  companySponsor?.companySponsor &&
+                  Object.entries(companySponsor?.companySponsor)
+                    .filter(
+                      ([key, value]) =>
+                        key !== "companyHouseEntry" && key !== "pdfSponsor"
                     )
-                      .filter(
-                        ([key, value]) => value !== null && value !== undefined
-                      )
-                      .map(([key, value]) => (
-                        <Row key={key} keyProp={key} value={value} />
-                      ))}
-                </div>
-              </CardContent>
-            </CardActionArea>
+                    .map(([key, value]) => (
+                      <Row key={key} keyProp={key} value={value} />
+                    ))}
+              </div>
+            </CardContent>
           </Card>
         </Grid>
         <Grid item xs={4}>
@@ -199,32 +250,19 @@ const CompanyDetail: React.FC<{}> = (props) => {
             <CardActionArea>
               <CardContent>
                 <Typography gutterBottom variant="h5" component="h2">
-                  Company Sponsor
+                  {
+                    "Nearby stations (based on proximity <= 1km and postcode match)"
+                  }
                 </Typography>
-                <div>
-                  {companySponsor &&
-                    companySponsor?.companySponsor &&
-                    Object.entries(companySponsor?.companySponsor)
-                      .filter(
-                        ([key, value]) =>
-                          key !== "companyHouseEntry" && key !== "pdfSponsor"
-                      )
-                      .map(([key, value]) => (
-                        <Row key={key} keyProp={key} value={value} />
-                      ))}
-                </div>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-        </Grid>
-        <Grid item xs={4}>
-          <Card>
-            <CardActionArea>
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="h2">
-                  Nearby stations (based on postcode match)
-                </Typography>
+
                 <List>
+                  {nearbyTrainStations &&
+                    nearbyTrainStations.map((trainStation) => (
+                      <ListItem
+                        key={trainStation.name}
+                      >{`${trainStation.name} [${trainStation.zone}] [${trainStation.modes}] [${trainStation.lines}] {${trainStation.distance}m}`}</ListItem>
+                    ))}
+                  <Divider />
                   {companySponsor &&
                     companySponsor?.nearbyTubeStations &&
                     companySponsor.nearbyTubeStations.map((trainStation) => (
