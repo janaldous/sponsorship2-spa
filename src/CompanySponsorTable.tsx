@@ -65,13 +65,23 @@ const CompanySponsorTable: React.FC<{}> = () => {
   const [rows, setRows] = React.useState<Array<CompanySponsorRow>>([]);
   const pageSizeDefault = 8;
   const [rowCount, setRowCount] = React.useState<number>(0);
-  const [page, setPage] = React.useState<number>(1);
+  const [page, setPage] = React.useState<number>();
 
   const history = useHistory();
   const location = useLocation();
   const { zone, pageIndex } = queryString.parse(location.search);
 
   React.useEffect(() => {
+    if (pageIndex !== null) {
+      const pageLookup = +(pageIndex as string);
+      setPage(pageLookup);
+    } else {
+      setPage(1);
+    }
+  }, [pageIndex]);
+
+  React.useEffect(() => {
+    if (!page) return;
     if (!zone) {
       throw new Error("Query parameter 'zone' is required");
     }
