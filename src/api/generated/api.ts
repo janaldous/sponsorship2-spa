@@ -28,6 +28,61 @@ import {
 /**
  *
  * @export
+ * @interface Company
+ */
+export interface Company {
+  /**
+   *
+   * @type {string}
+   * @memberof Company
+   */
+  dateAdded?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof Company
+   */
+  industry?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof Company
+   */
+  mainTier?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof Company
+   */
+  organisationName?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof Company
+   */
+  socialWebsite?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof Company
+   */
+  subTier?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof Company
+   */
+  town?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof Company
+   */
+  website?: string;
+}
+/**
+ *
+ * @export
  * @interface CompanyHouseEntryDto
  */
 export interface CompanyHouseEntryDto {
@@ -125,6 +180,44 @@ export interface CompanyHouseEntryDto {
 /**
  *
  * @export
+ * @interface CompanySearchResponse
+ */
+export interface CompanySearchResponse {
+  /**
+   *
+   * @type {number}
+   * @memberof CompanySearchResponse
+   */
+  count?: number;
+  /**
+   *
+   * @type {Array<Company>}
+   * @memberof CompanySearchResponse
+   */
+  companies?: Array<Company>;
+}
+/**
+ *
+ * @export
+ * @interface CompanySponsorDetailResponse
+ */
+export interface CompanySponsorDetailResponse {
+  /**
+   *
+   * @type {CompanySponsorDto}
+   * @memberof CompanySponsorDetailResponse
+   */
+  companySponsor?: CompanySponsorDto;
+  /**
+   *
+   * @type {Array<TubeStationDto>}
+   * @memberof CompanySponsorDetailResponse
+   */
+  nearbyTubeStations?: Array<TubeStationDto>;
+}
+/**
+ *
+ * @export
  * @interface CompanySponsorDto
  */
 export interface CompanySponsorDto {
@@ -170,6 +263,12 @@ export interface CompanySponsorDto {
    * @memberof CompanySponsorDto
    */
   localityMatches?: boolean;
+  /**
+   *
+   * @type {boolean}
+   * @memberof CompanySponsorDto
+   */
+  checked?: boolean;
 }
 
 /**
@@ -182,6 +281,260 @@ export enum CompanySponsorDtoFetchDataStatusEnum {
   FAILED = "FAILED",
   NORESULT = "NO_RESULT",
   MULTIPLERESULTMATCHLOCALITY = "MULTIPLE_RESULT_MATCH_LOCALITY",
+}
+
+/**
+ *
+ * @export
+ * @interface JobApplicationDto
+ */
+export interface JobApplicationDto {
+  /**
+   *
+   * @type {number}
+   * @memberof JobApplicationDto
+   */
+  id?: number;
+  /**
+   *
+   * @type {string}
+   * @memberof JobApplicationDto
+   */
+  timestamp?: string;
+  /**
+   *
+   * @type {number}
+   * @memberof JobApplicationDto
+   */
+  companySponsorId?: number;
+  /**
+   *
+   * @type {string}
+   * @memberof JobApplicationDto
+   */
+  applicationMethod?: JobApplicationDtoApplicationMethodEnum;
+  /**
+   *
+   * @type {string}
+   * @memberof JobApplicationDto
+   */
+  status?: JobApplicationDtoStatusEnum;
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof JobApplicationDto
+   */
+  categories?: Array<JobApplicationDtoCategoriesEnum>;
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof JobApplicationDto
+   */
+  techStack?: Array<JobApplicationDtoTechStackEnum>;
+  /**
+   *
+   * @type {string}
+   * @memberof JobApplicationDto
+   */
+  website?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof JobApplicationDto
+   */
+  linkedInUrl?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof JobApplicationDto
+   */
+  email?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof JobApplicationDto
+   */
+  notes?: string;
+}
+
+/**
+ * @export
+ * @enum {string}
+ */
+export enum JobApplicationDtoApplicationMethodEnum {
+  WEBSITE = "WEBSITE",
+  LINKEDIN = "LINKEDIN",
+  EMAIL = "EMAIL",
+}
+/**
+ * @export
+ * @enum {string}
+ */
+export enum JobApplicationDtoStatusEnum {
+  APPLIED = "APPLIED",
+  INPROGRESS = "IN_PROGRESS",
+  REJECTED = "REJECTED",
+  DEFERRED = "DEFERRED",
+  CHECKEDNOWEBSITE = "CHECKED_NO_WEBSITE",
+  CHECKEDNOCAREERSPAGE = "CHECKED_NO_CAREERS_PAGE",
+  CHECKEDCAREERSPAGENOJOBS = "CHECKED_CAREERS_PAGE_NO_JOBS",
+  CHECKEDLINKEDINNOJOBS = "CHECKED_LINKED_IN_NO_JOBS",
+  CHECKEDCAREERSPAGENOTQUALIFIED = "CHECKED_CAREERS_PAGE_NOT_QUALIFIED",
+  NOTTECHCOMPANY = "NOT_TECH_COMPANY",
+  NOLONDONTECHJOBS = "NO_LONDON_TECH_JOBS",
+  ADDEDTOAPPLICATIONQUEUE = "ADDED_TO_APPLICATION_QUEUE",
+}
+/**
+ * @export
+ * @enum {string}
+ */
+export enum JobApplicationDtoCategoriesEnum {
+  CLOUD = "CLOUD",
+  SOFTWAREDEV = "SOFTWARE_DEV",
+  MEDTECH = "MEDTECH",
+  FINTECH = "FINTECH",
+}
+/**
+ * @export
+ * @enum {string}
+ */
+export enum JobApplicationDtoTechStackEnum {
+  JAVA = "JAVA",
+  CSHARP = "C_SHARP",
+  PYTHON = "PYTHON",
+  K8S = "K8S",
+  REACT = "REACT",
+  ANGULAR = "ANGULAR",
+  VUE = "VUE",
+  JS = "JS",
+  TS = "TS",
+  REDUX = "REDUX",
+  NODE = "NODE",
+  EXPRESS = "EXPRESS",
+  AWS = "AWS",
+  GCP = "GCP",
+  NOSQL = "NO_SQL",
+}
+
+/**
+ *
+ * @export
+ * @interface JobApplicationEventDto
+ */
+export interface JobApplicationEventDto {
+  /**
+   *
+   * @type {number}
+   * @memberof JobApplicationEventDto
+   */
+  companySponsorId: number;
+  /**
+   *
+   * @type {string}
+   * @memberof JobApplicationEventDto
+   */
+  applicationMethod?: JobApplicationEventDtoApplicationMethodEnum;
+  /**
+   *
+   * @type {string}
+   * @memberof JobApplicationEventDto
+   */
+  status?: JobApplicationEventDtoStatusEnum;
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof JobApplicationEventDto
+   */
+  categories?: Array<JobApplicationEventDtoCategoriesEnum>;
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof JobApplicationEventDto
+   */
+  techStack?: Array<JobApplicationEventDtoTechStackEnum>;
+  /**
+   *
+   * @type {string}
+   * @memberof JobApplicationEventDto
+   */
+  website?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof JobApplicationEventDto
+   */
+  linkedInUrl?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof JobApplicationEventDto
+   */
+  email?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof JobApplicationEventDto
+   */
+  notes?: string;
+}
+
+/**
+ * @export
+ * @enum {string}
+ */
+export enum JobApplicationEventDtoApplicationMethodEnum {
+  WEBSITE = "WEBSITE",
+  LINKEDIN = "LINKEDIN",
+  EMAIL = "EMAIL",
+}
+/**
+ * @export
+ * @enum {string}
+ */
+export enum JobApplicationEventDtoStatusEnum {
+  APPLIED = "APPLIED",
+  INPROGRESS = "IN_PROGRESS",
+  REJECTED = "REJECTED",
+  DEFERRED = "DEFERRED",
+  CHECKEDNOWEBSITE = "CHECKED_NO_WEBSITE",
+  CHECKEDNOCAREERSPAGE = "CHECKED_NO_CAREERS_PAGE",
+  CHECKEDCAREERSPAGENOJOBS = "CHECKED_CAREERS_PAGE_NO_JOBS",
+  CHECKEDLINKEDINNOJOBS = "CHECKED_LINKED_IN_NO_JOBS",
+  CHECKEDCAREERSPAGENOTQUALIFIED = "CHECKED_CAREERS_PAGE_NOT_QUALIFIED",
+  NOTTECHCOMPANY = "NOT_TECH_COMPANY",
+  NOLONDONTECHJOBS = "NO_LONDON_TECH_JOBS",
+  ADDEDTOAPPLICATIONQUEUE = "ADDED_TO_APPLICATION_QUEUE",
+}
+/**
+ * @export
+ * @enum {string}
+ */
+export enum JobApplicationEventDtoCategoriesEnum {
+  CLOUD = "CLOUD",
+  SOFTWAREDEV = "SOFTWARE_DEV",
+  MEDTECH = "MEDTECH",
+  FINTECH = "FINTECH",
+}
+/**
+ * @export
+ * @enum {string}
+ */
+export enum JobApplicationEventDtoTechStackEnum {
+  JAVA = "JAVA",
+  CSHARP = "C_SHARP",
+  PYTHON = "PYTHON",
+  K8S = "K8S",
+  REACT = "REACT",
+  ANGULAR = "ANGULAR",
+  VUE = "VUE",
+  JS = "JS",
+  TS = "TS",
+  REDUX = "REDUX",
+  NODE = "NODE",
+  EXPRESS = "EXPRESS",
+  AWS = "AWS",
+  GCP = "GCP",
+  NOSQL = "NO_SQL",
 }
 
 /**
@@ -293,13 +646,19 @@ export interface PageCompanySponsorDto {
    * @type {number}
    * @memberof PageCompanySponsorDto
    */
+  totalPages?: number;
+  /**
+   *
+   * @type {number}
+   * @memberof PageCompanySponsorDto
+   */
   totalElements?: number;
   /**
    *
    * @type {number}
    * @memberof PageCompanySponsorDto
    */
-  totalPages?: number;
+  number?: number;
   /**
    *
    * @type {number}
@@ -344,12 +703,6 @@ export interface PageCompanySponsorDto {
   pageable?: Pageable;
   /**
    *
-   * @type {number}
-   * @memberof PageCompanySponsorDto
-   */
-  number?: number;
-  /**
-   *
    * @type {boolean}
    * @memberof PageCompanySponsorDto
    */
@@ -366,13 +719,19 @@ export interface PagePDFSponsor {
    * @type {number}
    * @memberof PagePDFSponsor
    */
+  totalPages?: number;
+  /**
+   *
+   * @type {number}
+   * @memberof PagePDFSponsor
+   */
   totalElements?: number;
   /**
    *
    * @type {number}
    * @memberof PagePDFSponsor
    */
-  totalPages?: number;
+  number?: number;
   /**
    *
    * @type {number}
@@ -415,12 +774,6 @@ export interface PagePDFSponsor {
    * @memberof PagePDFSponsor
    */
   pageable?: Pageable;
-  /**
-   *
-   * @type {number}
-   * @memberof PagePDFSponsor
-   */
-  number?: number;
   /**
    *
    * @type {boolean}
@@ -503,6 +856,80 @@ export interface Sort {
    */
   empty?: boolean;
 }
+/**
+ *
+ * @export
+ * @interface TrainStation
+ */
+export interface TrainStation {
+  /**
+   *
+   * @type {string}
+   * @memberof TrainStation
+   */
+  name?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof TrainStation
+   */
+  zone?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof TrainStation
+   */
+  modes?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof TrainStation
+   */
+  lines?: string;
+  /**
+   *
+   * @type {number}
+   * @memberof TrainStation
+   */
+  distance?: number;
+}
+/**
+ *
+ * @export
+ * @interface TubeStationDto
+ */
+export interface TubeStationDto {
+  /**
+   *
+   * @type {number}
+   * @memberof TubeStationDto
+   */
+  id?: number;
+  /**
+   *
+   * @type {string}
+   * @memberof TubeStationDto
+   */
+  stationName?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof TubeStationDto
+   */
+  address?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof TubeStationDto
+   */
+  postCodeDistrict?: string;
+  /**
+   *
+   * @type {number}
+   * @memberof TubeStationDto
+   */
+  zone?: number;
+}
 
 /**
  * CompanySponsorControllerApi - axios parameter creator
@@ -520,7 +947,7 @@ export const CompanySponsorControllerApiAxiosParamCreator = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getCompanyHouseEntry: async (
+    getCompanySponsor: async (
       page: number,
       size: number,
       zone: number,
@@ -530,21 +957,21 @@ export const CompanySponsorControllerApiAxiosParamCreator = function (
       if (page === null || page === undefined) {
         throw new RequiredError(
           "page",
-          "Required parameter page was null or undefined when calling getCompanyHouseEntry."
+          "Required parameter page was null or undefined when calling getCompanySponsor."
         );
       }
       // verify required parameter 'size' is not null or undefined
       if (size === null || size === undefined) {
         throw new RequiredError(
           "size",
-          "Required parameter size was null or undefined when calling getCompanyHouseEntry."
+          "Required parameter size was null or undefined when calling getCompanySponsor."
         );
       }
       // verify required parameter 'zone' is not null or undefined
       if (zone === null || zone === undefined) {
         throw new RequiredError(
           "zone",
-          "Required parameter zone was null or undefined when calling getCompanyHouseEntry."
+          "Required parameter zone was null or undefined when calling getCompanySponsor."
         );
       }
       const localVarPath = `/company`;
@@ -579,6 +1006,7 @@ export const CompanySponsorControllerApiAxiosParamCreator = function (
         ...options.query,
       };
       // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = {
@@ -598,7 +1026,7 @@ export const CompanySponsorControllerApiAxiosParamCreator = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getCompanyHouseEntryById: async (
+    getCompanySponsorById: async (
       id: number,
       options: any = {}
     ): Promise<RequestArgs> => {
@@ -606,7 +1034,7 @@ export const CompanySponsorControllerApiAxiosParamCreator = function (
       if (id === null || id === undefined) {
         throw new RequiredError(
           "id",
-          "Required parameter id was null or undefined when calling getCompanyHouseEntryById."
+          "Required parameter id was null or undefined when calling getCompanySponsorById."
         );
       }
       const localVarPath = `/company/{id}`.replace(
@@ -632,6 +1060,7 @@ export const CompanySponsorControllerApiAxiosParamCreator = function (
         ...options.query,
       };
       // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = {
@@ -664,7 +1093,7 @@ export const CompanySponsorControllerApiFp = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getCompanyHouseEntry(
+    async getCompanySponsor(
       page: number,
       size: number,
       zone: number,
@@ -677,7 +1106,7 @@ export const CompanySponsorControllerApiFp = function (
     > {
       const localVarAxiosArgs = await CompanySponsorControllerApiAxiosParamCreator(
         configuration
-      ).getCompanyHouseEntry(page, size, zone, options);
+      ).getCompanySponsor(page, size, zone, options);
       return (
         axios: AxiosInstance = globalAxios,
         basePath: string = BASE_PATH
@@ -695,18 +1124,18 @@ export const CompanySponsorControllerApiFp = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getCompanyHouseEntryById(
+    async getCompanySponsorById(
       id: number,
       options?: any
     ): Promise<
       (
         axios?: AxiosInstance,
         basePath?: string
-      ) => AxiosPromise<CompanySponsorDto>
+      ) => AxiosPromise<CompanySponsorDetailResponse>
     > {
       const localVarAxiosArgs = await CompanySponsorControllerApiAxiosParamCreator(
         configuration
-      ).getCompanyHouseEntryById(id, options);
+      ).getCompanySponsorById(id, options);
       return (
         axios: AxiosInstance = globalAxios,
         basePath: string = BASE_PATH
@@ -739,14 +1168,14 @@ export const CompanySponsorControllerApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getCompanyHouseEntry(
+    getCompanySponsor(
       page: number,
       size: number,
       zone: number,
       options?: any
     ): AxiosPromise<PageCompanySponsorDto> {
       return CompanySponsorControllerApiFp(configuration)
-        .getCompanyHouseEntry(page, size, zone, options)
+        .getCompanySponsor(page, size, zone, options)
         .then((request) => request(axios, basePath));
     },
     /**
@@ -755,12 +1184,12 @@ export const CompanySponsorControllerApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getCompanyHouseEntryById(
+    getCompanySponsorById(
       id: number,
       options?: any
-    ): AxiosPromise<CompanySponsorDto> {
+    ): AxiosPromise<CompanySponsorDetailResponse> {
       return CompanySponsorControllerApiFp(configuration)
-        .getCompanyHouseEntryById(id, options)
+        .getCompanySponsorById(id, options)
         .then((request) => request(axios, basePath));
     },
   };
@@ -782,14 +1211,14 @@ export class CompanySponsorControllerApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof CompanySponsorControllerApi
    */
-  public getCompanyHouseEntry(
+  public getCompanySponsor(
     page: number,
     size: number,
     zone: number,
     options?: any
   ) {
     return CompanySponsorControllerApiFp(this.configuration)
-      .getCompanyHouseEntry(page, size, zone, options)
+      .getCompanySponsor(page, size, zone, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
@@ -800,9 +1229,550 @@ export class CompanySponsorControllerApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof CompanySponsorControllerApi
    */
-  public getCompanyHouseEntryById(id: number, options?: any) {
+  public getCompanySponsorById(id: number, options?: any) {
     return CompanySponsorControllerApiFp(this.configuration)
-      .getCompanyHouseEntryById(id, options)
+      .getCompanySponsorById(id, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+}
+
+/**
+ * JobApplicationControllerApi - axios parameter creator
+ * @export
+ */
+export const JobApplicationControllerApiAxiosParamCreator = function (
+  configuration?: Configuration
+) {
+  return {
+    /**
+     *
+     * @param {number} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getJobApplication: async (
+      id: number,
+      options: any = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      if (id === null || id === undefined) {
+        throw new RequiredError(
+          "id",
+          "Required parameter id was null or undefined when calling getJobApplication."
+        );
+      }
+      const localVarPath = `/jobapplication/{id}`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id))
+      );
+      const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      localVarUrlObj.query = {
+        ...localVarUrlObj.query,
+        ...localVarQueryParameter,
+        ...options.query,
+      };
+      // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: globalImportUrl.format(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {number} companySponsorId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getJobApplicationByFilter: async (
+      companySponsorId: number,
+      options: any = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'companySponsorId' is not null or undefined
+      if (companySponsorId === null || companySponsorId === undefined) {
+        throw new RequiredError(
+          "companySponsorId",
+          "Required parameter companySponsorId was null or undefined when calling getJobApplicationByFilter."
+        );
+      }
+      const localVarPath = `/jobapplication`;
+      const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      if (companySponsorId !== undefined) {
+        localVarQueryParameter["companySponsorId"] = companySponsorId;
+      }
+
+      localVarUrlObj.query = {
+        ...localVarUrlObj.query,
+        ...localVarQueryParameter,
+        ...options.query,
+      };
+      // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: globalImportUrl.format(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {JobApplicationEventDto} jobApplicationEventDto
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    postNewJobApplication: async (
+      jobApplicationEventDto: JobApplicationEventDto,
+      options: any = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'jobApplicationEventDto' is not null or undefined
+      if (
+        jobApplicationEventDto === null ||
+        jobApplicationEventDto === undefined
+      ) {
+        throw new RequiredError(
+          "jobApplicationEventDto",
+          "Required parameter jobApplicationEventDto was null or undefined when calling postNewJobApplication."
+        );
+      }
+      const localVarPath = `/jobapplication`;
+      const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      localVarHeaderParameter["Content-Type"] = "application/json";
+
+      localVarUrlObj.query = {
+        ...localVarUrlObj.query,
+        ...localVarQueryParameter,
+        ...options.query,
+      };
+      // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      const needsSerialization =
+        typeof jobApplicationEventDto !== "string" ||
+        localVarRequestOptions.headers["Content-Type"] === "application/json";
+      localVarRequestOptions.data = needsSerialization
+        ? JSON.stringify(
+            jobApplicationEventDto !== undefined ? jobApplicationEventDto : {}
+          )
+        : jobApplicationEventDto || "";
+
+      return {
+        url: globalImportUrl.format(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+  };
+};
+
+/**
+ * JobApplicationControllerApi - functional programming interface
+ * @export
+ */
+export const JobApplicationControllerApiFp = function (
+  configuration?: Configuration
+) {
+  return {
+    /**
+     *
+     * @param {number} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getJobApplication(
+      id: number,
+      options?: any
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<JobApplicationDto>
+    > {
+      const localVarAxiosArgs = await JobApplicationControllerApiAxiosParamCreator(
+        configuration
+      ).getJobApplication(id, options);
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH
+      ) => {
+        const axiosRequestArgs = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+     *
+     * @param {number} companySponsorId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getJobApplicationByFilter(
+      companySponsorId: number,
+      options?: any
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<Array<JobApplicationDto>>
+    > {
+      const localVarAxiosArgs = await JobApplicationControllerApiAxiosParamCreator(
+        configuration
+      ).getJobApplicationByFilter(companySponsorId, options);
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH
+      ) => {
+        const axiosRequestArgs = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+     *
+     * @param {JobApplicationEventDto} jobApplicationEventDto
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async postNewJobApplication(
+      jobApplicationEventDto: JobApplicationEventDto,
+      options?: any
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<JobApplicationDto>
+    > {
+      const localVarAxiosArgs = await JobApplicationControllerApiAxiosParamCreator(
+        configuration
+      ).postNewJobApplication(jobApplicationEventDto, options);
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH
+      ) => {
+        const axiosRequestArgs = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+  };
+};
+
+/**
+ * JobApplicationControllerApi - factory interface
+ * @export
+ */
+export const JobApplicationControllerApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance
+) {
+  return {
+    /**
+     *
+     * @param {number} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getJobApplication(
+      id: number,
+      options?: any
+    ): AxiosPromise<JobApplicationDto> {
+      return JobApplicationControllerApiFp(configuration)
+        .getJobApplication(id, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {number} companySponsorId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getJobApplicationByFilter(
+      companySponsorId: number,
+      options?: any
+    ): AxiosPromise<Array<JobApplicationDto>> {
+      return JobApplicationControllerApiFp(configuration)
+        .getJobApplicationByFilter(companySponsorId, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {JobApplicationEventDto} jobApplicationEventDto
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    postNewJobApplication(
+      jobApplicationEventDto: JobApplicationEventDto,
+      options?: any
+    ): AxiosPromise<JobApplicationDto> {
+      return JobApplicationControllerApiFp(configuration)
+        .postNewJobApplication(jobApplicationEventDto, options)
+        .then((request) => request(axios, basePath));
+    },
+  };
+};
+
+/**
+ * JobApplicationControllerApi - object-oriented interface
+ * @export
+ * @class JobApplicationControllerApi
+ * @extends {BaseAPI}
+ */
+export class JobApplicationControllerApi extends BaseAPI {
+  /**
+   *
+   * @param {number} id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof JobApplicationControllerApi
+   */
+  public getJobApplication(id: number, options?: any) {
+    return JobApplicationControllerApiFp(this.configuration)
+      .getJobApplication(id, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {number} companySponsorId
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof JobApplicationControllerApi
+   */
+  public getJobApplicationByFilter(companySponsorId: number, options?: any) {
+    return JobApplicationControllerApiFp(this.configuration)
+      .getJobApplicationByFilter(companySponsorId, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {JobApplicationEventDto} jobApplicationEventDto
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof JobApplicationControllerApi
+   */
+  public postNewJobApplication(
+    jobApplicationEventDto: JobApplicationEventDto,
+    options?: any
+  ) {
+    return JobApplicationControllerApiFp(this.configuration)
+      .postNewJobApplication(jobApplicationEventDto, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+}
+
+/**
+ * NearbyStopsControllerApi - axios parameter creator
+ * @export
+ */
+export const NearbyStopsControllerApiAxiosParamCreator = function (
+  configuration?: Configuration
+) {
+  return {
+    /**
+     *
+     * @param {string} postCode
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getNearbyStops: async (
+      postCode: string,
+      options: any = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'postCode' is not null or undefined
+      if (postCode === null || postCode === undefined) {
+        throw new RequiredError(
+          "postCode",
+          "Required parameter postCode was null or undefined when calling getNearbyStops."
+        );
+      }
+      const localVarPath = `/nearbystops`;
+      const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      if (postCode !== undefined) {
+        localVarQueryParameter["postCode"] = postCode;
+      }
+
+      localVarUrlObj.query = {
+        ...localVarUrlObj.query,
+        ...localVarQueryParameter,
+        ...options.query,
+      };
+      // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: globalImportUrl.format(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+  };
+};
+
+/**
+ * NearbyStopsControllerApi - functional programming interface
+ * @export
+ */
+export const NearbyStopsControllerApiFp = function (
+  configuration?: Configuration
+) {
+  return {
+    /**
+     *
+     * @param {string} postCode
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getNearbyStops(
+      postCode: string,
+      options?: any
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<Array<TrainStation>>
+    > {
+      const localVarAxiosArgs = await NearbyStopsControllerApiAxiosParamCreator(
+        configuration
+      ).getNearbyStops(postCode, options);
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH
+      ) => {
+        const axiosRequestArgs = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+  };
+};
+
+/**
+ * NearbyStopsControllerApi - factory interface
+ * @export
+ */
+export const NearbyStopsControllerApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance
+) {
+  return {
+    /**
+     *
+     * @param {string} postCode
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getNearbyStops(
+      postCode: string,
+      options?: any
+    ): AxiosPromise<Array<TrainStation>> {
+      return NearbyStopsControllerApiFp(configuration)
+        .getNearbyStops(postCode, options)
+        .then((request) => request(axios, basePath));
+    },
+  };
+};
+
+/**
+ * NearbyStopsControllerApi - object-oriented interface
+ * @export
+ * @class NearbyStopsControllerApi
+ * @extends {BaseAPI}
+ */
+export class NearbyStopsControllerApi extends BaseAPI {
+  /**
+   *
+   * @param {string} postCode
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof NearbyStopsControllerApi
+   */
+  public getNearbyStops(postCode: string, options?: any) {
+    return NearbyStopsControllerApiFp(this.configuration)
+      .getNearbyStops(postCode, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }
@@ -856,6 +1826,7 @@ export const PdfSponsorControllerApiAxiosParamCreator = function (
         ...options.query,
       };
       // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = {
@@ -953,6 +1924,160 @@ export class PdfSponsorControllerApi extends BaseAPI {
   public getPDFSponsor(pageable: Pageable, options?: any) {
     return PdfSponsorControllerApiFp(this.configuration)
       .getPDFSponsor(pageable, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+}
+
+/**
+ * UkTierSponsorControllerApi - axios parameter creator
+ * @export
+ */
+export const UkTierSponsorControllerApiAxiosParamCreator = function (
+  configuration?: Configuration
+) {
+  return {
+    /**
+     *
+     * @param {number} companySponsorId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getUKTierSponsor: async (
+      companySponsorId: number,
+      options: any = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'companySponsorId' is not null or undefined
+      if (companySponsorId === null || companySponsorId === undefined) {
+        throw new RequiredError(
+          "companySponsorId",
+          "Required parameter companySponsorId was null or undefined when calling getUKTierSponsor."
+        );
+      }
+      const localVarPath = `/uktiersponsor`;
+      const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      if (companySponsorId !== undefined) {
+        localVarQueryParameter["companySponsorId"] = companySponsorId;
+      }
+
+      localVarUrlObj.query = {
+        ...localVarUrlObj.query,
+        ...localVarQueryParameter,
+        ...options.query,
+      };
+      // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: globalImportUrl.format(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+  };
+};
+
+/**
+ * UkTierSponsorControllerApi - functional programming interface
+ * @export
+ */
+export const UkTierSponsorControllerApiFp = function (
+  configuration?: Configuration
+) {
+  return {
+    /**
+     *
+     * @param {number} companySponsorId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getUKTierSponsor(
+      companySponsorId: number,
+      options?: any
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<CompanySearchResponse>
+    > {
+      const localVarAxiosArgs = await UkTierSponsorControllerApiAxiosParamCreator(
+        configuration
+      ).getUKTierSponsor(companySponsorId, options);
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH
+      ) => {
+        const axiosRequestArgs = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+  };
+};
+
+/**
+ * UkTierSponsorControllerApi - factory interface
+ * @export
+ */
+export const UkTierSponsorControllerApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance
+) {
+  return {
+    /**
+     *
+     * @param {number} companySponsorId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getUKTierSponsor(
+      companySponsorId: number,
+      options?: any
+    ): AxiosPromise<CompanySearchResponse> {
+      return UkTierSponsorControllerApiFp(configuration)
+        .getUKTierSponsor(companySponsorId, options)
+        .then((request) => request(axios, basePath));
+    },
+  };
+};
+
+/**
+ * UkTierSponsorControllerApi - object-oriented interface
+ * @export
+ * @class UkTierSponsorControllerApi
+ * @extends {BaseAPI}
+ */
+export class UkTierSponsorControllerApi extends BaseAPI {
+  /**
+   *
+   * @param {number} companySponsorId
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof UkTierSponsorControllerApi
+   */
+  public getUKTierSponsor(companySponsorId: number, options?: any) {
+    return UkTierSponsorControllerApiFp(this.configuration)
+      .getUKTierSponsor(companySponsorId, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }

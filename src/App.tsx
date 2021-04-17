@@ -3,7 +3,7 @@ import { HashRouter } from "react-router-dom";
 import { Switch, Route } from "react-router";
 import "./App.css";
 import CompanySponsorTable from "./CompanySponsorTable";
-import CompanyDetail from "./CompanyDetail";
+import CompanyDetail from "./CompanyDetail/CompanyDetail";
 
 function App() {
   return (
