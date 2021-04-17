@@ -393,6 +393,8 @@ export enum JobApplicationDtoCategoriesEnum {
   SOFTWAREDEV = "SOFTWARE_DEV",
   MEDTECH = "MEDTECH",
   FINTECH = "FINTECH",
+  AUTOMATION = "AUTOMATION",
+  AI = "AI",
 }
 /**
  * @export
@@ -514,6 +516,8 @@ export enum JobApplicationEventDtoCategoriesEnum {
   SOFTWAREDEV = "SOFTWARE_DEV",
   MEDTECH = "MEDTECH",
   FINTECH = "FINTECH",
+  AUTOMATION = "AUTOMATION",
+  AI = "AI",
 }
 /**
  * @export
@@ -646,13 +650,13 @@ export interface PageCompanySponsorDto {
    * @type {number}
    * @memberof PageCompanySponsorDto
    */
-  totalPages?: number;
+  totalElements?: number;
   /**
    *
    * @type {number}
    * @memberof PageCompanySponsorDto
    */
-  totalElements?: number;
+  totalPages?: number;
   /**
    *
    * @type {number}
@@ -719,13 +723,13 @@ export interface PagePDFSponsor {
    * @type {number}
    * @memberof PagePDFSponsor
    */
-  totalPages?: number;
+  totalElements?: number;
   /**
    *
    * @type {number}
    * @memberof PagePDFSponsor
    */
-  totalElements?: number;
+  totalPages?: number;
   /**
    *
    * @type {number}
@@ -842,13 +846,13 @@ export interface Sort {
    * @type {boolean}
    * @memberof Sort
    */
-  sorted?: boolean;
+  unsorted?: boolean;
   /**
    *
    * @type {boolean}
    * @memberof Sort
    */
-  unsorted?: boolean;
+  sorted?: boolean;
   /**
    *
    * @type {boolean}
